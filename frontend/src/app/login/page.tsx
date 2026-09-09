@@ -6,6 +6,7 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter }
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 import { Leaf, Building2, UserCheck, ShieldCheck } from 'lucide-react';
+import { getErrorMessage } from '@/lib/utils';
 import toast from 'react-hot-toast';
 
 export default function LoginPage() {
@@ -20,7 +21,7 @@ export default function LoginPage() {
       await login({ email: eEmail, password: ePassword });
       toast.success('Logged in successfully');
     } catch (error: any) {
-      toast.error(error.response?.data?.detail || 'Login failed');
+      toast.error(getErrorMessage(error, 'Login failed'));
     } finally {
       setLoading(false);
     }

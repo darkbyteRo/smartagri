@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/Button';
 import { IndianRupee, Zap, RefreshCw } from 'lucide-react';
 import api from '@/lib/api';
 import toast from 'react-hot-toast';
+import { getErrorMessage } from '@/lib/utils';
 
 interface PriceRecord {
   id: number;
@@ -57,7 +58,7 @@ export default function AdminPrices() {
       await fetchPrices();
     } catch (err: any) {
       console.error('Price sync failed:', err);
-      toast.error(err.response?.data?.detail || 'Failed to sync live mandi prices');
+      toast.error(getErrorMessage(err, 'Failed to sync live mandi prices'));
     } finally {
       setSyncing(false);
     }

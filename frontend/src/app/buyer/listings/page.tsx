@@ -11,6 +11,7 @@ import { EmptyState } from '@/components/ui/EmptyState';
 import { MapPin, Calendar, IndianRupee, Search, Filter, RefreshCw, FileText } from 'lucide-react';
 import Link from 'next/link';
 import api from '@/lib/api';
+import { getErrorMessage } from '@/lib/utils';
 import toast from 'react-hot-toast';
 import type { ProduceListing } from '@/types';
 
@@ -83,7 +84,7 @@ export default function BrowseListings() {
       setSelectedListing(null);
     } catch (err: any) {
       console.error(err);
-      toast.error(err.response?.data?.detail || 'Failed to submit offer');
+      toast.error(getErrorMessage(err, 'Failed to submit offer'));
     } finally {
       setSubmittingOffer(false);
     }

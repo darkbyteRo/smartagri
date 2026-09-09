@@ -13,6 +13,7 @@ import { ProduceListing, Crop } from '@/types';
 import { Package, Plus, Calendar, IndianRupee } from 'lucide-react';
 import api from '@/lib/api';
 import toast from 'react-hot-toast';
+import { getErrorMessage } from '@/lib/utils';
 
 export default function ListingsPage() {
   const [listings, setListings] = useState<ProduceListing[]>([]);
@@ -81,13 +82,7 @@ export default function ListingsPage() {
       setExpectedPrice('');
       setHarvestDate('');
     } catch (error: any) {
-      const detail = error.response?.data?.detail;
-      const msg = typeof detail === 'string' 
-        ? detail 
-        : Array.isArray(detail) 
-          ? detail[0]?.msg || 'Validation failed'
-          : 'Failed to create listing';
-      toast.error(msg);
+      toast.error(getErrorMessage(error, 'Failed to create listing'));
     } finally {
       setSubmitting(false);
     }
@@ -100,7 +95,7 @@ export default function ListingsPage() {
       toast.success('Listing cancelled');
       fetchListings();
     } catch (error) {
-      toast.error('Failed to cancel listing');
+      toast.error(getErrorMessage(error, 'Failed to cancel listing'));
     }
   };
 

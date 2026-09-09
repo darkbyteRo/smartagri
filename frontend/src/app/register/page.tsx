@@ -9,6 +9,7 @@ import { Select } from '@/components/ui/Select';
 import { Button } from '@/components/ui/Button';
 import { Leaf } from 'lucide-react';
 import api from '@/lib/api';
+import { getErrorMessage } from '@/lib/utils';
 import toast from 'react-hot-toast';
 
 const DEFAULT_DISTRICTS = [
@@ -91,7 +92,7 @@ export default function RegisterPage() {
       await register(payload);
       toast.success('Registration successful. Please login.');
     } catch (error: any) {
-      toast.error(error.response?.data?.detail || 'Registration failed');
+      toast.error(getErrorMessage(error, 'Registration failed'));
     } finally {
       setLoading(false);
     }
@@ -132,7 +133,7 @@ export default function RegisterPage() {
               <Input label="Full Name" name="full_name" required value={formData.full_name} onChange={handleChange} />
               <Input label="Email address" type="email" name="email" required value={formData.email} onChange={handleChange} />
               <Input label="Phone Number" type="tel" name="phone" value={formData.phone} onChange={handleChange} />
-              <Input label="Password" type="password" name="password" required value={formData.password} onChange={handleChange} />
+              <Input label="Password" type="password" name="password" required minLength={6} placeholder="Minimum 6 characters" value={formData.password} onChange={handleChange} />
 
               <Select
                 label={role === 'FARMER' ? 'Farming District' : 'Business Location (District)'}

@@ -10,6 +10,7 @@ import { BuyerOffer } from '@/types';
 import { Users, ShieldCheck, MessageCircle, Check, X } from 'lucide-react';
 import api from '@/lib/api';
 import toast from 'react-hot-toast';
+import { getErrorMessage } from '@/lib/utils';
 
 export default function BuyersPage() {
   const [offers, setOffers] = useState<BuyerOffer[]>([]);
@@ -36,7 +37,7 @@ export default function BuyersPage() {
       toast.success(`Offer ${action.toLowerCase()}ed successfully`);
       fetchOffers();
     } catch (error) {
-      toast.error(`Failed to ${action.toLowerCase()} offer`);
+      toast.error(getErrorMessage(error, `Failed to ${action.toLowerCase()} offer`));
     }
   };
 
