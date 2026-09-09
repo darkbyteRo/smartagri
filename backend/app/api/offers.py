@@ -16,18 +16,43 @@ from app.schemas.offer import OfferCreate, OfferResponse
 router = APIRouter(prefix="/api/offers", tags=["Offers"])
 
 def _populate_offer(db, o):
-    o.buyer_name = o.buyer.user.full_name if (o.buyer and o.buyer.user) else ""
-    o.buyer_business_name = o.buyer.business_name if o.buyer else ""
-    o.buyer_verified = o.buyer.is_verified if o.buyer else False
-    o.buyer_reliability_score = o.buyer.reliability_score if o.buyer else 0.0
-    
-    l = o.listing
-    l.crop_name = l.crop.name if l.crop else ""
-    l.farmer_name = l.farmer.user.full_name if (l.farmer and l.farmer.user) else ""
-    l.district_name = l.farmer.district.name if (l.farmer and l.farmer.district) else ""
-    o.listing = l
-    return o
+    b_name = o.buyer.user.full_name if (o.buyer and o.buyer.user) else "Buyer"
+    bb_name = o.buyer.business_name if o.buyer else b_name
+    b_ver = o.buyer.is_verified if o.buyer else False
+    b_rel = o.buyer.reliability_score if o.buyer and o.buyer.reliability_score else 4.5
 
+    l = o.listing
+    listing_data = None
+    if l:
+        listing_data = {
+            "id": l.id,
+            "crop_name": l.crop.name if l.crop else "",
+            "quantity_kg": l.quantity_kg,
+            "quality_grade": l.quality_grade,
+            "farmer_name": l.farmer.user.full_name if (l.farmer and l.farmer.user) else "Farmer",
+            "district_name": l.farmer.district.name if (l.farmer and l.farmer.district) else "",
+            "expected_price_per_kg": l.expected_price_per_kg,
+        }
+
+    return {
+        "id": o.id,
+        "buyer_id": o.buyer_id,
+        "listing_id": o.listing_id,
+        "offered_price_per_kg": o.offered_price_per_kg,
+        "quantity_kg": o.quantity_kg,
+        "message": o.message,
+        "status": o.status,
+        "created_at": o.created_at,
+        "updated_at": o.updated_at,
+        "buyer_name": b_name,
+        "buyer_business_name": bb_name,
+        "buyer_verified": b_ver,
+        "buyer_reliability_score": b_rel,
+        "listing": listing_data,
+    }
+
+
+@router.post("", response_model=OfferResponse)
 @router.post("/", response_model=OfferResponse)
 def create_offer(
     offer: OfferCreate,
@@ -39,7 +64,7 @@ def create_offer(
         raise HTTPException(status_code=404, detail="Listing not found")
     if listing.status != ListingStatus.ACTIVE:
         raise HTTPException(status_code=400, detail="Listing is not active")
-        
+
     db_offer = BuyerOffer(
         buyer_id=buyer.id,
         listing_id=offer.listing_id,
@@ -52,23 +77,27 @@ def create_offer(
     db.refresh(db_offer)
     return _populate_offer(db, db_offer)
 
+
+@router.get("", response_model=List[OfferResponse])
 @router.get("/", response_model=List[OfferResponse])
 def get_offers(
     db: Session = Depends(get_db),
-    user = Depends(get_current_user)
+    user=Depends(get_current_user)
 ):
     query = db.query(BuyerOffer)
     if user.role == RoleEnum.FARMER:
         farmer = db.query(Farmer).filter(Farmer.user_id == user.id).first()
+        if not farmer:
+            return []
         query = query.join(ProduceListing).filter(ProduceListing.farmer_id == farmer.id)
     elif user.role == RoleEnum.BUYER:
         buyer = db.query(Buyer).filter(Buyer.user_id == user.id).first()
+        if not buyer:
+            return []
         query = query.filter(BuyerOffer.buyer_id == buyer.id)
-        
-    offers = query.all()
-    for o in offers:
-        _populate_offer(db, o)
-    return offers
+
+    offers = query.order_by(BuyerOffer.created_at.desc()).all()
+    return [_populate_offer(db, o) for o in offers]
 
 @router.put("/{offer_id}/accept")
 def accept_offer(

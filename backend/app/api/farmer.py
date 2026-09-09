@@ -268,13 +268,18 @@ def get_farmer_offers(
     result = []
     for o in offers:
         listing = o.listing
+        rel_score = o.buyer.reliability_score if o.buyer and o.buyer.reliability_score else 4.5
+        b_name = o.buyer.user.full_name if (o.buyer and o.buyer.user) else "Buyer"
+        b_biz = o.buyer.business_name if o.buyer else b_name
         result.append({
             "id": str(o.id),
             "listing_id": str(o.listing_id),
-            "buyer_name": o.buyer.user.full_name if (o.buyer and o.buyer.user) else "Buyer",
-            "buyer_business_name": o.buyer.business_name if o.buyer else "",
+            "buyer_name": b_name,
+            "buyer_business": b_biz,
+            "buyer_business_name": b_biz,
             "buyer_verified": o.buyer.is_verified if o.buyer else False,
-            "buyer_reliability_score": o.buyer.reliability_score if o.buyer else 0,
+            "buyer_reliability": rel_score,
+            "buyer_reliability_score": rel_score,
             "offered_price_per_kg": o.offered_price_per_kg,
             "quantity_kg": o.quantity_kg,
             "message": o.message,
@@ -288,3 +293,70 @@ def get_farmer_offers(
             } if listing else None,
         })
     return result
+
+
+class OfferActionPayload(BaseModel):
+    action: str
+
+
+@router.patch("/offers/{offer_id}")
+def update_farmer_offer_status(
+    offer_id: str,
+    payload: OfferActionPayload,
+    db: Session = Depends(get_db),
+    user=Depends(get_current_user)
+):
+    from app.models.transaction import Transaction, TransactionStatus
+
+    farmer = db.query(Farmer).filter(Farmer.user_id == user.id).first()
+    if not farmer:
+        raise HTTPException(status_code=404, detail="Farmer not found")
+
+    o_uuid = _to_uuid(offer_id)
+    offer = db.query(BuyerOffer).join(ProduceListing).filter(
+        BuyerOffer.id == o_uuid,
+        ProduceListing.farmer_id == farmer.id
+    ).first()
+    if not offer:
+        raise HTTPException(status_code=404, detail="Offer not found")
+
+    action_str = payload.action.upper()
+    if action_str == "ACCEPT":
+        offer.status = OfferStatus.ACCEPTED
+        listing = offer.listing
+        if listing:
+            listing.status = ListingStatus.SOLD
+
+            # Reject other pending offers on this listing
+            other_offers = db.query(BuyerOffer).filter(
+                BuyerOffer.listing_id == listing.id,
+                BuyerOffer.id != offer.id,
+                BuyerOffer.status == OfferStatus.PENDING
+            ).all()
+            for o in other_offers:
+                o.status = OfferStatus.REJECTED
+
+            # Create completed transaction record
+            tx = Transaction(
+                offer_id=offer.id,
+                farmer_id=farmer.id,
+                buyer_id=offer.buyer_id,
+                crop_id=listing.crop_id,
+                quantity_kg=offer.quantity_kg,
+                agreed_price_per_kg=offer.offered_price_per_kg,
+                total_amount=offer.quantity_kg * offer.offered_price_per_kg,
+                status=TransactionStatus.COMPLETED
+            )
+            db.add(tx)
+    elif action_str == "REJECT":
+        offer.status = OfferStatus.REJECTED
+    else:
+        raise HTTPException(status_code=400, detail="Action must be ACCEPT or REJECT")
+
+    db.commit()
+    db.refresh(offer)
+    return {
+        "id": str(offer.id),
+        "status": offer.status.value if hasattr(offer.status, 'value') else str(offer.status),
+        "message": f"Offer {action_str.lower()}ed successfully"
+    }

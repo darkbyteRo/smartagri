@@ -13,6 +13,7 @@ from app.schemas.listing import ListingCreate, ListingUpdate, ListingResponse
 
 router = APIRouter(prefix="/api/listings", tags=["Listings"])
 
+@router.post("", response_model=ListingResponse)
 @router.post("/", response_model=ListingResponse)
 def create_listing(
     listing: ListingCreate,
@@ -33,6 +34,7 @@ def create_listing(
     db_listing.district_name = farmer.district.name if farmer.district else ""
     return db_listing
 
+@router.get("", response_model=List[ListingResponse])
 @router.get("/", response_model=List[ListingResponse])
 def get_listings(
     crop_id: Optional[int] = None,

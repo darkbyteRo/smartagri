@@ -198,6 +198,7 @@ export interface ProduceListing {
   id: string;
   farmer_id: string;
   farmer_name?: string;
+  district_name?: string;
   crop_id: number;
   crop_name?: string;
   quantity_kg: number;
