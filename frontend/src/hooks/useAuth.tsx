@@ -26,7 +26,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (token) {
         try {
           const response = await api.get('/auth/me');
-          setUser(response.data);
+          const data = response.data;
+          const normalized = data.user ? { ...data.user, profile_id: data.id } : data;
+          setUser(normalized);
         } catch (error) {
           removeToken();
         }

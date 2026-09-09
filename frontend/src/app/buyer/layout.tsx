@@ -13,7 +13,7 @@ export default function BuyerLayout({ children }: { children: React.ReactNode })
   const navigation = [
     { name: 'Dashboard', href: '/buyer/dashboard', icon: LayoutDashboard },
     { name: 'My Requirements', href: '/buyer/requirements', icon: ShoppingCart },
-    { name: 'Browse Listings', href: '/buyer/browse', icon: Search },
+    { name: 'Browse Listings', href: '/buyer/listings', icon: Search },
     { name: 'My Offers', href: '/buyer/offers', icon: FileText },
   ];
 

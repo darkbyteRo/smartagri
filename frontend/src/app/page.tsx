@@ -36,13 +36,13 @@ export default function Home() {
               Make data-driven decisions on when, where, and to whom to sell your produce using our AI-powered platform.
             </p>
             <div className="flex justify-center gap-4">
-              <Link href="/register">
-                <Button size="lg" className="bg-white text-emerald-700 hover:bg-emerald-50">
+              <Link href="/register?role=FARMER">
+                <Button size="lg" className="bg-white text-emerald-800 hover:bg-emerald-50 font-semibold shadow-sm border border-emerald-100">
                   Join as Farmer
                 </Button>
               </Link>
-              <Link href="/register">
-                <Button size="lg" variant="outline" className="border-white text-white hover:bg-emerald-600">
+              <Link href="/register?role=BUYER">
+                <Button size="lg" className="bg-white text-emerald-800 hover:bg-emerald-50 font-semibold shadow-sm border-2 border-emerald-300">
                   Join as Buyer
                 </Button>
               </Link>

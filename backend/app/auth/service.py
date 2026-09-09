@@ -33,13 +33,16 @@ def register_user(db: Session, user_data: UserRegister) -> User:
             )
             db.add(new_farmer)
     elif user_data.role == RoleEnum.BUYER:
-        if not user_data.business_name or user_data.district_id is None:
-            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Business name and district_id are required for buyers")
+        b_name = user_data.business_name.strip() if user_data.business_name and user_data.business_name.strip() else f"{user_data.full_name}'s Trading"
+        b_type = user_data.business_type.strip() if user_data.business_type and user_data.business_type.strip() else "Wholesale Trader"
+        d_id = user_data.district_id if user_data.district_id is not None else 4
         new_buyer = Buyer(
             user_id=new_user.id,
-            district_id=user_data.district_id,
-            business_name=user_data.business_name,
-            business_type=user_data.business_type or "General"
+            district_id=d_id,
+            business_name=b_name,
+            business_type=b_type,
+            is_verified=True,
+            reliability_score=85.0
         )
         db.add(new_buyer)
         

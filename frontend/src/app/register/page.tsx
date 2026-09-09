@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useAuth } from '@/hooks/useAuth';
 import { UserRole, RegisterRequest } from '@/types';
@@ -8,22 +8,59 @@ import { Input } from '@/components/ui/Input';
 import { Select } from '@/components/ui/Select';
 import { Button } from '@/components/ui/Button';
 import { Leaf } from 'lucide-react';
+import api from '@/lib/api';
 import toast from 'react-hot-toast';
+
+const DEFAULT_DISTRICTS = [
+  { label: 'Hyderabad', value: 4 },
+  { label: 'Warangal', value: 32 },
+  { label: 'Hanumakonda', value: 3 },
+  { label: 'Nizamabad', value: 23 },
+  { label: 'Karimnagar', value: 10 },
+  { label: 'Khammam', value: 11 },
+  { label: 'Sangareddy', value: 27 },
+  { label: 'Rangareddy', value: 26 },
+  { label: 'Suryapet', value: 29 },
+  { label: 'Nalgonda', value: 20 },
+];
 
 export default function RegisterPage() {
   const [role, setRole] = useState<UserRole>('FARMER');
+  const [districts, setDistricts] = useState<{ label: string; value: number }[]>(DEFAULT_DISTRICTS);
   const [formData, setFormData] = useState({
     email: '',
     password: '',
     full_name: '',
     phone: '',
-    district_id: '1', // Default, should fetch
+    district_id: '4',
     village: '',
     business_name: '',
     business_type: '',
   });
   const [loading, setLoading] = useState(false);
   const { register } = useAuth();
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      const urlRole = params.get('role');
+      if (urlRole && urlRole.toUpperCase() === 'BUYER') {
+        setRole('BUYER');
+      }
+    }
+
+    const fetchDistricts = async () => {
+      try {
+        const res = await api.get('/markets/districts');
+        if (Array.isArray(res.data) && res.data.length > 0) {
+          setDistricts(res.data.map((d: any) => ({ label: d.name, value: d.id })));
+        }
+      } catch (err) {
+        // Fallback to default districts
+      }
+    };
+    fetchDistricts();
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -33,21 +70,24 @@ export default function RegisterPage() {
     e.preventDefault();
     setLoading(true);
     try {
+      const districtId = parseInt(formData.district_id) || 4;
       const payload: RegisterRequest = {
         email: formData.email,
         password: formData.password,
         full_name: formData.full_name,
         phone: formData.phone,
         role,
-        ...(role === 'FARMER' ? {
-          district_id: parseInt(formData.district_id),
-          village: formData.village
-        } : {
-          business_name: formData.business_name,
-          business_type: formData.business_type
-        })
+        district_id: districtId,
+        ...(role === 'FARMER'
+          ? {
+              village: formData.village,
+            }
+          : {
+              business_name: formData.business_name || `${formData.full_name}'s Trading`,
+              business_type: formData.business_type || 'Wholesale Trader',
+            }),
       };
-      
+
       await register(payload);
       toast.success('Registration successful. Please login.');
     } catch (error: any) {
@@ -93,30 +133,28 @@ export default function RegisterPage() {
               <Input label="Email address" type="email" name="email" required value={formData.email} onChange={handleChange} />
               <Input label="Phone Number" type="tel" name="phone" value={formData.phone} onChange={handleChange} />
               <Input label="Password" type="password" name="password" required value={formData.password} onChange={handleChange} />
-              
+
+              <Select
+                label={role === 'FARMER' ? 'Farming District' : 'Business Location (District)'}
+                name="district_id"
+                value={formData.district_id}
+                onChange={handleChange}
+                options={districts}
+              />
+
               {role === 'FARMER' && (
-                <>
-                  <Select 
-                    label="District" 
-                    name="district_id" 
-                    placeholder="Select District"
-                    value={formData.district_id} 
-                    onChange={handleChange}
-                    options={[{ label: 'Hyderabad', value: 1 }, { label: 'Warangal', value: 2 }, { label: 'Nizamabad', value: 3 }]}
-                  />
-                  <Input label="Village" name="village" value={formData.village} onChange={handleChange} />
-                </>
+                <Input label="Village" name="village" value={formData.village} onChange={handleChange} />
               )}
 
               {role === 'BUYER' && (
                 <>
-                  <Input label="Business Name" name="business_name" value={formData.business_name} onChange={handleChange} />
-                  <Input label="Business Type (e.g. Retailer, Exporter)" name="business_type" value={formData.business_type} onChange={handleChange} />
+                  <Input label="Business Name" name="business_name" placeholder="e.g. Srinivas Agro Trading" value={formData.business_name} onChange={handleChange} />
+                  <Input label="Business Type (e.g. Retailer, Wholesaler, Exporter)" name="business_type" placeholder="Wholesale Trader" value={formData.business_type} onChange={handleChange} />
                 </>
               )}
 
               <Button type="submit" className="w-full mt-4" isLoading={loading}>
-                Register
+                Register as {role === 'FARMER' ? 'Farmer' : 'Buyer'}
               </Button>
             </form>
           </CardContent>
@@ -133,3 +171,4 @@ export default function RegisterPage() {
     </div>
   );
 }
+
