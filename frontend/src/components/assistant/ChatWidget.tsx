@@ -3,12 +3,46 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { 
   MessageCircle, X, Send, Bot, Mic, MicOff, Volume2, VolumeX, 
-  Languages, Loader2, Sparkles, RefreshCw 
+  Languages, Loader2, Sparkles, Check, AlertCircle 
 } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { ChatMessage } from '@/types';
 import api from '@/lib/api';
 import toast from 'react-hot-toast';
+
+// 16kHz mono WAV encoder for clean Sarvam AI STT ingestion
+function encodeWAV(samples: Float32Array, sampleRate: number): Blob {
+  const buffer = new ArrayBuffer(44 + samples.length * 2);
+  const view = new DataView(buffer);
+
+  const writeString = (offset: number, str: string) => {
+    for (let i = 0; i < str.length; i++) {
+      view.setUint8(offset + i, str.charCodeAt(i));
+    }
+  };
+
+  writeString(0, 'RIFF');
+  view.setUint32(4, 36 + samples.length * 2, true);
+  writeString(8, 'WAVE');
+  writeString(12, 'fmt ');
+  view.setUint32(16, 16, true); // Subchunk1Size
+  view.setUint16(20, 1, true); // AudioFormat PCM
+  view.setUint16(22, 1, true); // NumChannels 1 (mono)
+  view.setUint32(24, sampleRate, true);
+  view.setUint32(28, sampleRate * 2, true); // ByteRate
+  view.setUint16(32, 2, true); // BlockAlign
+  view.setUint16(34, 16, true); // BitsPerSample
+  writeString(36, 'data');
+  view.setUint32(40, samples.length * 2, true);
+
+  let offset = 44;
+  for (let i = 0; i < samples.length; i++, offset += 2) {
+    const s = Math.max(-1, Math.min(1, samples[i]));
+    view.setInt16(offset, s < 0 ? s * 0x8000 : s * 0x7FFF, true);
+  }
+
+  return new Blob([view], { type: 'audio/wav' });
+}
 
 export function ChatWidget() {
   const [isOpen, setIsOpen] = useState(false);
@@ -27,12 +61,15 @@ export function ChatWidget() {
   const [recordingSeconds, setRecordingSeconds] = useState(0);
   const [audioLoadingId, setAudioLoadingId] = useState<string | null>(null);
   const [playingAudioId, setPlayingAudioId] = useState<string | null>(null);
+  const [liveTranscript, setLiveTranscript] = useState<string>('');
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
-  const audioChunksRef = useRef<Blob[]>([]);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const recognitionRef = useRef<any>(null);
+  const audioContextRef = useRef<AudioContext | null>(null);
+  const mediaStreamRef = useRef<MediaStream | null>(null);
+  const recordedSamplesRef = useRef<Float32Array[]>([]);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -134,74 +171,176 @@ export function ChatWidget() {
     }
   };
 
-  // Start recording voice
+  // Start dual-engine voice recording
   const startRecording = async () => {
+    setLiveTranscript('');
+    stopAudio();
+
+    // Check if Web Speech API is supported
+    const SpeechRecognition = typeof window !== 'undefined' && 
+      ((window as any).SpeechRecognition || (window as any).webkitSpeechRecognition);
+
+    let recognitionStarted = false;
+
+    if (SpeechRecognition) {
+      try {
+        const recognition = new SpeechRecognition();
+        recognitionRef.current = recognition;
+        recognition.continuous = true;
+        recognition.interimResults = true;
+        recognition.lang = language === 'te' ? 'te-IN' : 'en-IN';
+
+        recognition.onresult = (event: any) => {
+          let interim = '';
+          let final = '';
+          for (let i = 0; i < event.results.length; i++) {
+            const transcript = event.results[i][0].transcript;
+            if (event.results[i].isFinal) {
+              final += transcript + ' ';
+            } else {
+              interim += transcript;
+            }
+          }
+          const spoken = (final + interim).trim();
+          setLiveTranscript(spoken);
+          setInput(spoken);
+        };
+
+        recognition.onerror = (event: any) => {
+          console.warn('SpeechRecognition error:', event.error);
+        };
+
+        recognition.start();
+        recognitionStarted = true;
+      } catch (e) {
+        console.warn('Web Speech API failed to start:', e);
+      }
+    }
+
+    // Also start AudioContext WAV capture for high-fidelity Sarvam STT fallback
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      audioChunksRef.current = [];
-      const mediaRecorder = new MediaRecorder(stream);
-      mediaRecorderRef.current = mediaRecorder;
+      const stream = await navigator.mediaDevices.getUserMedia({ 
+        audio: { 
+          channelCount: 1, 
+          sampleRate: 16000, 
+          echoCancellation: true, 
+          noiseSuppression: true 
+        } 
+      });
+      mediaStreamRef.current = stream;
+      recordedSamplesRef.current = [];
 
-      mediaRecorder.ondataavailable = (e) => {
-        if (e.data.size > 0) {
-          audioChunksRef.current.push(e.data);
-        }
+      const audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)({ sampleRate: 16000 });
+      audioContextRef.current = audioCtx;
+
+      const source = audioCtx.createMediaStreamSource(stream);
+      const processor = audioCtx.createScriptProcessor(4096, 1, 1);
+
+      processor.onaudioprocess = (e) => {
+        const inputData = e.inputBuffer.getChannelData(0);
+        recordedSamplesRef.current.push(new Float32Array(inputData));
       };
 
-      mediaRecorder.onstop = async () => {
-        stream.getTracks().forEach((track) => track.stop());
-        const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
-        await processAudioInput(audioBlob);
-      };
+      source.connect(processor);
+      processor.connect(audioCtx.destination);
 
-      mediaRecorder.start();
       setIsRecording(true);
+      toast.success(
+        language === 'te' 
+          ? 'వినడం ప్రారంభమైంది... మాట్లాడండి (తెలుగు)' 
+          : 'Listening... speak into your microphone (English)',
+        { duration: 2500 }
+      );
     } catch (err) {
       console.error('Error accessing microphone:', err);
-      toast.error('Could not access microphone. Please allow microphone access in your browser.');
-    }
-  };
-
-  // Stop recording
-  const stopRecording = () => {
-    if (mediaRecorderRef.current && isRecording) {
-      mediaRecorderRef.current.stop();
-      setIsRecording(false);
-    }
-  };
-
-  // Send recorded audio to backend Speech-to-Text
-  const processAudioInput = async (blob: Blob) => {
-    setIsLoading(true);
-    const toastId = toast.loading(language === 'te' ? 'వాయిస్ విశ్లేషిస్తోంది...' : 'Transcribing voice audio...');
-
-    try {
-      const formData = new FormData();
-      formData.append('file', blob, 'voice.webm');
-      formData.append('language', language);
-
-      const res = await api.post('/assistant/speech-to-text', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' }
-      });
-
-      toast.dismiss(toastId);
-      const transcript = res.data?.transcript;
-      if (transcript && transcript.trim()) {
-        toast.success(language === 'te' ? 'వాయిస్ గుర్తించబడింది!' : 'Voice recognized!');
-        await sendMessage(transcript.trim(), true);
+      if (!recognitionStarted) {
+        toast.error('Could not access microphone. Please allow microphone permissions in your browser.');
+        setIsRecording(false);
       } else {
-        toast.error(language === 'te' ? 'వాయిస్ స్పష్టంగా లేదు, దయచేసి మళ్ళీ చెప్పండి.' : 'No speech detected. Please speak closer to microphone.');
+        setIsRecording(true);
       }
-    } catch (err) {
-      toast.dismiss(toastId);
-      console.error('STT error:', err);
-      toast.error('Could not process speech. Please try again or type below.');
-    } finally {
-      setIsLoading(false);
     }
   };
 
-  // Send text message (and optionally auto-play response if sent via voice)
+  // Stop recording and process
+  const stopRecording = async () => {
+    setIsRecording(false);
+
+    // Stop Web Speech Recognition
+    if (recognitionRef.current) {
+      try {
+        recognitionRef.current.stop();
+      } catch (e) {}
+      recognitionRef.current = null;
+    }
+
+    // Stop MediaStream
+    if (mediaStreamRef.current) {
+      mediaStreamRef.current.getTracks().forEach((track) => track.stop());
+      mediaStreamRef.current = null;
+    }
+
+    if (audioContextRef.current) {
+      try {
+        audioContextRef.current.close();
+      } catch (e) {}
+      audioContextRef.current = null;
+    }
+
+    // If browser Web Speech API already captured text, prioritize it!
+    if (liveTranscript.trim() || input.trim()) {
+      const recognized = (liveTranscript || input).trim();
+      setInput(recognized);
+      toast.success(language === 'te' ? 'వాయిస్ గుర్తించబడింది!' : 'Voice recognized!');
+      return;
+    }
+
+    // Otherwise, encode the captured 16kHz audio to WAV and send to Sarvam AI STT
+    if (recordedSamplesRef.current.length > 0) {
+      setIsLoading(true);
+      const toastId = toast.loading(language === 'te' ? 'Sarvam AI వాయిస్ విశ్లేషిస్తోంది...' : 'Transcribing voice with Sarvam AI...');
+
+      try {
+        // Flatten audio samples
+        let totalLength = 0;
+        for (const chunk of recordedSamplesRef.current) {
+          totalLength += chunk.length;
+        }
+        const merged = new Float32Array(totalLength);
+        let offset = 0;
+        for (const chunk of recordedSamplesRef.current) {
+          merged.set(chunk, offset);
+          offset += chunk.length;
+        }
+
+        const wavBlob = encodeWAV(merged, 16000);
+        const formData = new FormData();
+        formData.append('file', wavBlob, 'voice.wav');
+        formData.append('language', language === 'te' ? 'te' : 'en');
+
+        const res = await api.post('/assistant/speech-to-text', formData, {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        });
+
+        toast.dismiss(toastId);
+        const transcript = res.data?.transcript;
+        if (transcript && transcript.trim()) {
+          setInput(transcript.trim());
+          toast.success(language === 'te' ? 'వాయిస్ గుర్తించబడింది!' : 'Voice recognized!');
+        } else {
+          toast.error(language === 'te' ? 'వాయిస్ స్పష్టంగా లేదు, దయచేసి మళ్ళీ చెప్పండి.' : 'No clear speech detected. Please speak closer to microphone.');
+        }
+      } catch (err) {
+        toast.dismiss(toastId);
+        console.error('STT error:', err);
+        toast.error('Could not process speech. Please type your message.');
+      } finally {
+        setIsLoading(false);
+      }
+    }
+  };
+
+  // Send message
   const sendMessage = async (textToSend: string, isVoiceQuery: boolean = false) => {
     if (!textToSend.trim() || isLoading) return;
 
@@ -214,6 +353,7 @@ export function ChatWidget() {
 
     setMessages((prev) => [...prev, userMessage]);
     setInput('');
+    setLiveTranscript('');
     setIsLoading(true);
 
     try {
@@ -234,11 +374,11 @@ export function ChatWidget() {
 
       setMessages((prev) => [...prev, assistantMessage]);
 
-      // If user asked via voice, auto-play response
+      // If requested via voice, automatically play speech response
       if (isVoiceQuery) {
         setTimeout(() => {
           playAudioResponse(responseText, newMsgId);
-        }, 300);
+        }, 400);
       }
     } catch (error: any) {
       console.error("Chat error:", error);
@@ -263,7 +403,7 @@ export function ChatWidget() {
 
   return (
     <>
-      {/* Floating Action Button */}
+      {/* Floating Button */}
       <button
         onClick={() => setIsOpen(true)}
         className={`fixed bottom-6 right-6 p-4 bg-emerald-600 text-white rounded-full shadow-xl hover:bg-emerald-700 transition-all z-50 flex items-center gap-2 group ${
@@ -277,12 +417,12 @@ export function ChatWidget() {
         </span>
       </button>
 
-      {/* Chat Window */}
+      {/* Chat Container */}
       <div 
-        className={`fixed bottom-6 right-6 w-80 sm:w-[420px] bg-white rounded-2xl shadow-2xl border border-gray-200 flex flex-col overflow-hidden transition-all duration-300 z-50 ${
+        className={`fixed bottom-6 right-6 w-80 sm:w-[430px] bg-white rounded-2xl shadow-2xl border border-gray-200 flex flex-col overflow-hidden transition-all duration-300 z-50 ${
           isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10 pointer-events-none'
         }`} 
-        style={{ height: '560px', maxHeight: 'calc(100vh - 48px)' }}
+        style={{ height: '580px', maxHeight: 'calc(100vh - 40px)' }}
       >
         {/* Header */}
         <div className="bg-emerald-700 p-3.5 text-white flex justify-between items-center shadow-sm">
@@ -293,34 +433,53 @@ export function ChatWidget() {
             <div>
               <div className="flex items-center gap-1.5">
                 <h3 className="font-semibold text-sm leading-tight">SmartAgri AI</h3>
-                <span className="inline-flex items-center px-1.5 py-0.2 rounded text-[10px] font-medium bg-emerald-500/30 text-emerald-100 border border-emerald-400/30">
+                <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium bg-emerald-500/30 text-emerald-100 border border-emerald-400/30">
                   Voice + Text
                 </span>
               </div>
               <p className="text-[11px] text-emerald-200 leading-tight">
-                {language === 'te' ? 'తెలంగాణ వ్యవసాయ సహాయకుడు' : 'Telangana Market Intelligence'}
+                {language === 'te' ? 'తెలంగాణ వ్యవసాయ మార్కెట్ మిత్ర' : 'Telangana Market Intelligence'}
               </p>
             </div>
           </div>
 
-          <div className="flex items-center gap-2">
-            {/* Language Toggle Button */}
-            <button
-              onClick={() => {
-                const newLang = language === 'en' ? 'te' : 'en';
-                setLanguage(newLang);
-                toast.success(newLang === 'te' ? 'భాష: తెలుగు' : 'Language: English');
-              }}
-              className="px-2 py-1 bg-emerald-800 hover:bg-emerald-900 text-xs rounded-md font-medium text-emerald-100 flex items-center gap-1 transition-colors border border-emerald-600"
-              title="Toggle Language (English / తెలుగు)"
-            >
-              <Languages className="w-3.5 h-3.5" />
-              <span>{language === 'en' ? 'తెలుగు' : 'English'}</span>
-            </button>
+          <div className="flex items-center gap-1.5">
+            {/* Language Switcher Tabs */}
+            <div className="bg-emerald-900/60 p-0.5 rounded-lg flex border border-emerald-600/60">
+              <button
+                onClick={() => {
+                  setLanguage('en');
+                  stopAudio();
+                  toast.success('Voice mode set to English');
+                }}
+                className={`px-2 py-0.5 text-xs rounded font-medium transition-colors ${
+                  language === 'en' 
+                    ? 'bg-emerald-500 text-white shadow-sm' 
+                    : 'text-emerald-200 hover:text-white'
+                }`}
+              >
+                EN
+              </button>
+              <button
+                onClick={() => {
+                  setLanguage('te');
+                  stopAudio();
+                  toast.success('వాయిస్ మోడ్: తెలుగు');
+                }}
+                className={`px-2 py-0.5 text-xs rounded font-medium transition-colors ${
+                  language === 'te' 
+                    ? 'bg-emerald-500 text-white shadow-sm' 
+                    : 'text-emerald-200 hover:text-white'
+                }`}
+              >
+                తెలుగు
+              </button>
+            </div>
 
             <button 
               onClick={() => {
                 stopAudio();
+                if (isRecording) stopRecording();
                 setIsOpen(false);
               }} 
               className="text-emerald-200 hover:text-white p-1 rounded-md hover:bg-emerald-800 transition-colors"
@@ -335,14 +494,14 @@ export function ChatWidget() {
         <div className="flex-1 overflow-y-auto p-4 space-y-3.5 bg-slate-50">
           {messages.map((msg) => (
             <div key={msg.id} className={`flex flex-col ${msg.role === 'user' ? 'items-end' : 'items-start'}`}>
-              <div className={`max-w-[86%] p-3 rounded-2xl relative group ${
+              <div className={`max-w-[88%] p-3 rounded-2xl relative group ${
                 msg.role === 'user' 
                   ? 'bg-emerald-600 text-white rounded-tr-sm shadow-sm' 
                   : 'bg-white border border-gray-200 text-gray-800 rounded-tl-sm shadow-sm'
               }`}>
                 <p className="text-sm whitespace-pre-wrap leading-relaxed">{msg.content}</p>
 
-                <div className="flex items-center justify-between gap-3 mt-1.5 pt-1 border-t border-gray-100/30">
+                <div className="flex items-center justify-between gap-3 mt-2 pt-1 border-t border-gray-100/30">
                   <span className={`text-[10px] ${msg.role === 'user' ? 'text-emerald-100' : 'text-gray-400'}`}>
                     {new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                   </span>
@@ -352,12 +511,12 @@ export function ChatWidget() {
                     <button
                       onClick={() => playAudioResponse(msg.content, msg.id)}
                       disabled={audioLoadingId === msg.id}
-                      className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[11px] font-medium transition-colors ${
+                      className={`inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-medium transition-colors ${
                         playingAudioId === msg.id
                           ? 'bg-emerald-100 text-emerald-800 animate-pulse'
                           : 'text-gray-500 hover:text-emerald-700 hover:bg-emerald-50'
                       }`}
-                      title={playingAudioId === msg.id ? "Stop listening" : "Listen in voice (Sarvam AI)"}
+                      title={playingAudioId === msg.id ? "Stop audio" : "Listen in voice (Sarvam AI)"}
                     >
                       {audioLoadingId === msg.id ? (
                         <Loader2 className="w-3.5 h-3.5 animate-spin text-emerald-600" />
@@ -369,7 +528,7 @@ export function ChatWidget() {
                       ) : (
                         <>
                           <Volume2 className="w-3.5 h-3.5 text-emerald-600" />
-                          <span className="text-[10px]">Listen</span>
+                          <span className="text-[10px]">Listen 🔊</span>
                         </>
                       )}
                     </button>
@@ -379,13 +538,13 @@ export function ChatWidget() {
             </div>
           ))}
 
-          {/* Typing / Processing Loader */}
+          {/* Typing Loader */}
           {isLoading && (
             <div className="flex justify-start">
-              <div className="bg-white border border-gray-200 p-3 rounded-2xl rounded-tl-sm shadow-sm flex items-center gap-2 text-xs text-gray-500">
+              <div className="bg-white border border-gray-200 p-3 rounded-2xl rounded-tl-sm shadow-sm flex items-center gap-2 text-xs text-gray-600">
                 <Loader2 className="w-4 h-4 animate-spin text-emerald-600" />
                 <span>
-                  {language === 'te' ? 'సమాధానం విశ్లేషిస్తోంది...' : 'Checking market intelligence...'}
+                  {language === 'te' ? 'సమాధానం విశ్లేషిస్తోంది...' : 'Checking mandi intelligence...'}
                 </span>
               </div>
             </div>
@@ -408,27 +567,35 @@ export function ChatWidget() {
           ))}
         </div>
 
-        {/* Recording active overlay bar */}
+        {/* Active Recording Overlay Bar */}
         {isRecording && (
-          <div className="bg-red-50 border-t border-red-200 px-4 py-2 flex items-center justify-between text-red-700 animate-pulse">
-            <div className="flex items-center gap-2">
-              <div className="w-2.5 h-2.5 bg-red-600 rounded-full animate-ping" />
-              <span className="text-xs font-semibold">
-                {language === 'te' ? 'వాయిస్ రికార్డ్ అవుతోంది...' : 'Recording Voice...'} ({recordingSeconds}s)
-              </span>
+          <div className="bg-red-50 border-t border-red-200 px-3.5 py-2.5 flex items-center justify-between text-red-700 animate-pulse">
+            <div className="flex items-center gap-2 min-w-0">
+              <div className="w-3 h-3 bg-red-600 rounded-full animate-ping flex-shrink-0" />
+              <div className="min-w-0">
+                <p className="text-xs font-semibold leading-tight truncate">
+                  {language === 'te' ? 'వినడం జరుగుతోంది...' : 'Listening to your voice...'} ({recordingSeconds}s)
+                </p>
+                <p className="text-[10px] text-red-600 leading-tight">
+                  {language === 'te' ? 'స్పష్టంగా మాట్లాడండి (తెలుగు)' : `Language: ${language === 'en' ? 'English (Indian accent)' : 'Telugu'}`}
+                </p>
+              </div>
             </div>
-            <button
-              onClick={stopRecording}
-              className="px-2.5 py-0.5 bg-red-600 text-white rounded text-xs font-medium hover:bg-red-700"
-            >
-              Done / Send
-            </button>
+            <div className="flex items-center gap-1.5 flex-shrink-0">
+              <button
+                type="button"
+                onClick={stopRecording}
+                className="px-3 py-1 bg-red-600 text-white rounded-full text-xs font-semibold hover:bg-red-700 shadow-sm"
+              >
+                Done
+              </button>
+            </div>
           </div>
         )}
 
         {/* Input Bar */}
         <form onSubmit={handleSend} className="p-3 bg-white border-t border-gray-200 flex items-center gap-2">
-          {/* Audio Microphone Record Button */}
+          {/* Microphone Button */}
           <button
             type="button"
             onClick={isRecording ? stopRecording : startRecording}
@@ -438,7 +605,11 @@ export function ChatWidget() {
                 ? 'bg-red-600 text-white shadow-lg shadow-red-200 animate-bounce'
                 : 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100 border border-emerald-300'
             }`}
-            title={isRecording ? "Click to stop and send" : "Click to speak (Telugu / English)"}
+            title={
+              isRecording 
+                ? "Click to finish speaking" 
+                : (language === 'te' ? "వాయిస్ మాట్లాడండి (తెలుగు)" : "Speak your question (English)")
+            }
           >
             {isRecording ? <MicOff className="w-5 h-5" /> : <Mic className="w-5 h-5" />}
           </button>
@@ -449,11 +620,13 @@ export function ChatWidget() {
             onChange={(e) => setInput(e.target.value)}
             placeholder={
               isRecording 
-                ? (language === 'te' ? "వాయిస్ రికార్డ్ అవుతోంది..." : "Listening...") 
-                : (language === 'te' ? "ధరలు, మార్కెట్ల గురించి అడగండి..." : "Ask prices, where to sell, etc...")
+                ? (language === 'te' ? "మీరు మాట్లాడుతున్నది వింటున్నాం..." : "Speak now... words will appear here") 
+                : (language === 'te' ? "ధరలు లేదా మార్కెట్ల గురించి అడగండి..." : "Ask prices, where to sell, etc...")
             }
-            className="flex-1 px-3.5 py-2 border border-gray-300 rounded-full focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 text-sm disabled:bg-gray-50"
-            disabled={isLoading || isRecording}
+            className={`flex-1 px-3.5 py-2 border rounded-full focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 text-sm disabled:bg-gray-50 transition-colors ${
+              isRecording ? 'border-red-300 bg-red-50/40' : 'border-gray-300'
+            }`}
+            disabled={isLoading}
           />
 
           <Button 

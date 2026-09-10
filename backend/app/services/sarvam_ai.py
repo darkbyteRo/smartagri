@@ -144,19 +144,20 @@ class SarvamAIService:
             logger.error(f"Sarvam AI TTS failed: {e}")
             return None
     
-    async def speech_to_text(self, audio_bytes: bytes, language: str = "te", filename: str = "audio.wav", content_type: str = "audio/wav") -> Optional[str]:
-        """Convert speech audio to text (Telugu or English)."""
+    async def speech_to_text(self, audio_bytes: bytes, language: str = "unknown", filename: str = "audio.wav", content_type: str = "audio/wav") -> Optional[str]:
+        """Convert speech audio to text (Telugu or English). Supports auto-detection."""
         if not self.enabled:
             return None
         
-        lang_map = {"en": "en-IN", "te": "te-IN", "hi": "hi-IN"}
+        lang_map = {"en": "en-IN", "te": "te-IN", "hi": "hi-IN", "unknown": "unknown"}
+        target_lang = lang_map.get(language, "unknown")
         
         try:
             async with httpx.AsyncClient(timeout=30.0) as client:
                 files = {"file": (filename, audio_bytes, content_type)}
                 data = {
                     "model": "saaras:v3",
-                    "language_code": lang_map.get(language, "te-IN"),
+                    "language_code": target_lang,
                 }
                 response = await client.post(
                     f"{self.BASE_URL}/speech-to-text",
@@ -165,7 +166,8 @@ class SarvamAIService:
                     data=data,
                 )
                 response.raise_for_status()
-                return response.json().get("transcript", "")
+                res_data = response.json()
+                return res_data.get("transcript", "")
         except Exception as e:
             logger.error(f"Sarvam AI STT failed: {e}")
             return None

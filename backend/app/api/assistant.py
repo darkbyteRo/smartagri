@@ -72,7 +72,7 @@ async def chat(
 @router.post("/speech-to-text")
 async def speech_to_text(
     file: UploadFile = File(...),
-    language: Optional[str] = Form("te")
+    language: Optional[str] = Form("unknown")
 ):
     sarvam = get_sarvam_service()
     content = await file.read()
