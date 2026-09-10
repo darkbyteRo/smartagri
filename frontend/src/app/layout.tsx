@@ -7,8 +7,8 @@ import { AuthProvider } from '@/hooks/useAuth';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'SmartAgri - Telangana Farmer Market Intelligence',
-  description: 'Market intelligence platform for Telangana farmers',
+  title: 'AgriSetu - Telangana Farmer Market Intelligence',
+  description: 'AgriSetu - Market intelligence and direct linkage platform for Telangana farmers',
 };
 
 export default function RootLayout({

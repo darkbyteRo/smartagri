@@ -51,7 +51,7 @@ export function ChatWidget() {
     {
       id: '1',
       role: 'assistant',
-      content: "Hi! I'm SmartAgri AI. Ask me about mandi prices, where to sell, or whether to hold your produce. 🌾\n\nనమస్కారం! నేను స్మార్ట్ అగ్రి AI. మార్కెట్ ధరలు మరియు సలహాల కోసం నన్ను అడగండి.",
+      content: "Hi! I'm AgriSetu AI. Ask me about mandi prices, where to sell, or whether to hold your produce. 🌾\n\nనమస్కారం! నేను అగ్రిసేతు AI. మార్కెట్ ధరలు మరియు సలహాల కోసం నన్ను అడగండి.",
       timestamp: new Date().toISOString()
     }
   ]);
@@ -513,7 +513,7 @@ export function ChatWidget() {
             </div>
             <div>
               <div className="flex items-center gap-1.5">
-                <h3 className="font-semibold text-sm leading-tight">SmartAgri AI</h3>
+                <h3 className="font-semibold text-sm leading-tight">AgriSetu AI</h3>
                 <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium bg-emerald-500/30 text-emerald-100 border border-emerald-400/30">
                   Voice + Text
                 </span>

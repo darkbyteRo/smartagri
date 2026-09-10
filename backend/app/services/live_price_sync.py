@@ -43,7 +43,7 @@ def sync_live_mandi_prices(db: Session, api_key: str = None) -> Dict[str, Any]:
             ctx.verify_mode = ssl.CERT_NONE
             
             url = f"https://api.data.gov.in/resource/9ef84268-d588-465a-a308-a864a43d0070?api-key={api_key}&format=json&filters%5Bstate%5D=Telangana&limit=200"
-            req = urllib.request.Request(url, headers={"User-Agent": "SmartAgri/1.0"})
+            req = urllib.request.Request(url, headers={"User-Agent": "AgriSetu/1.0"})
             res = urllib.request.urlopen(req, timeout=8, context=ctx)
             data = json.loads(res.read())
             records = data.get("records", [])

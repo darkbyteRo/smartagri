@@ -9,7 +9,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2 text-emerald-600">
             <Leaf className="w-8 h-8" />
-            <span className="text-xl font-bold text-emerald-900">SmartAgri</span>
+            <span className="text-xl font-bold text-emerald-900">AgriSetu</span>
           </div>
           <div className="flex gap-4">
             <Link href="/login">
@@ -91,7 +91,7 @@ export default function Home() {
       </main>
 
       <footer className="bg-gray-900 text-gray-300 py-8 text-center text-sm">
-        <p>© 2026 SmartAgri - SIH Telangana Farmer Market Intelligence Platform. All rights reserved.</p>
+        <p>© 2026 AgriSetu - SIH Telangana Farmer Market Intelligence Platform. All rights reserved.</p>
       </footer>
     </div>
   );

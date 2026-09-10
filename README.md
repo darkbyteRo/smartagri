@@ -1,10 +1,10 @@
-# SmartAgri — Telangana Farmer Market Intelligence Platform
+# AgriSetu — Telangana Farmer Market Intelligence Platform
 
 **SIH Problem Statement 26132** — Strengthening market linkages and price discovery for farmers.
 
 ## Overview
 
-SmartAgri helps Telangana farmers make data-driven selling decisions by providing:
+AgriSetu helps Telangana farmers make data-driven selling decisions by providing:
 - **Market Intelligence**: Compare markets by estimated net realization
 - **Price Prediction**: ML-based 1-7 day price forecasts
 - **Sell/Hold Recommendations**: Should I sell now or wait?

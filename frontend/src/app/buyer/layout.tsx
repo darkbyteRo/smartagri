@@ -33,7 +33,7 @@ export default function BuyerLayout({ children }: { children: React.ReactNode })
         ${mobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}
       `}>
         <div className="flex items-center justify-center h-16 bg-blue-950 border-b border-blue-800 flex-shrink-0">
-          <span className="text-xl font-bold">SmartAgri Buyer</span>
+          <span className="text-xl font-bold">AgriSetu Buyer</span>
         </div>
         <div className="flex flex-col flex-1 overflow-hidden justify-between">
           <nav className="flex-1 px-2 py-4 space-y-1 overflow-y-auto">
@@ -82,7 +82,7 @@ export default function BuyerLayout({ children }: { children: React.ReactNode })
           >
             <Menu className="h-6 w-6" />
           </button>
-          <span className="text-lg font-bold text-blue-900">SmartAgri</span>
+          <span className="text-lg font-bold text-blue-900">AgriSetu</span>
         </header>
 
         <main className="flex-1 p-4 sm:p-6 lg:p-8 overflow-auto">

@@ -1,4 +1,4 @@
-# SmartAgri — Telangana Farmer Market Intelligence Platform
+# AgriSetu — Telangana Farmer Market Intelligence Platform
 ## Comprehensive Prototype Technical Report & Presentation Guide
 **Problem Statement SIH 26132:** *Strengthening market linkages and price discovery for farmers.*
 
@@ -8,7 +8,7 @@
 
 Smallholder farmers in Telangana face severe economic losses due to **information asymmetry, high logistics costs, and intermediary exploitation**. Even when mandi prices are publicly quoted, farmers lack the analytical tools to determine their **true Net Realization** (market price minus transport costs and market cesses). Furthermore, perishable produce (e.g., tomatoes) frequently spoils while farmers hold stock hoping for better prices, or farmers sell prematurely during temporary price dips.
 
-**SmartAgri** is a full-stack, data-driven market intelligence and direct linkage platform tailored to Telangana's agricultural ecosystem. It solves these challenges through:
+**AgriSetu** is a full-stack, data-driven market intelligence and direct linkage platform tailored to Telangana's agricultural ecosystem. It solves these challenges through:
 1. **Net Realization Engine:** Ranks mandis not by gross quoted price, but by estimated net profit in the farmer's pocket after Haversine-based logistics and mandi fees.
 2. **AI-Powered Sell vs. Hold Decision Engine:** Evaluates price forecasts, crop-specific spoilage rates, and daily holding/storage costs to deliver actionable decisions (Sell Now, Hold for $N$ Days, or Sell Partially).
 3. **Multi-Factor Buyer Matching & Reliability Scoring:** Matches produce listings directly with verified buyers using multi-objective optimization (distance, price, volume, reliability score) to bypass exploitative middlemen.
@@ -29,7 +29,7 @@ Smallholder farmers in Telangana face severe economic losses due to **informatio
 
 ## 3. High-Level System Architecture
 
-The SmartAgri platform is engineered using modern, production-grade microservice-style components:
+The AgriSetu platform is engineered using modern, production-grade microservice-style components:
 
 ```mermaid
 graph TD
@@ -74,7 +74,7 @@ graph TD
 ## 4. Key Mathematical Formulations & Algorithms
 
 ### 4.1. True Net Realization Model
-Gross price is misleading. SmartAgri computes the **Net Realization** ($R_{\text{net}}$) for each market $m \in M$:
+Gross price is misleading. AgriSetu computes the **Net Realization** ($R_{\text{net}}$) for each market $m \in M$:
 
 $$\text{Gross Revenue} = P_m \times Q \times \mu_{\text{quality}}$$
 
@@ -181,10 +181,10 @@ The prototype runs on Supabase PostgreSQL with 10 core tables:
 This section is directly formatted for your team to copy into your slide deck.
 
 ### Slide 1: Title Slide
-- **Headline:** SmartAgri — Telangana Farmer Market Intelligence & Direct Linkage Platform
+- **Headline:** AgriSetu — Telangana Farmer Market Intelligence & Direct Linkage Platform
 - **Sub-headline:** Empowering Farmers with Net Realization Discovery, Perishability Risk Analytics & Direct Buyer Linkages
 - **Details:** SIH Problem Statement 26132 | Team Darkbyte | September 2026
-- **Visuals:** High-resolution mockup of the SmartAgri Dashboard on a tablet and phone with Telangana State agricultural branding.
+- **Visuals:** High-resolution mockup of the AgriSetu Dashboard on a tablet and phone with Telangana State agricultural branding.
 
 ### Slide 2: The Problem: The Hidden Costs of Agriculture
 - **Bullet Points:**
@@ -194,7 +194,7 @@ This section is directly formatted for your team to copy into your slide deck.
   - **Vernacular Divide:** Advanced agri-tech platforms lack true Indic voice support for non-English speakers.
 - **Key Metric Callout:** *"Up to 30% of a smallholder farmer's revenue is lost to inefficient logistics, price opacity, and post-harvest decay."*
 
-### Slide 3: The Solution: SmartAgri 4-Pillar Intelligence
+### Slide 3: The Solution: AgriSetu 4-Pillar Intelligence
 - **Pillar 1 — Net Realization Engine:** Calculates actual earnings after deducting transport costs and market fees across 20+ mandis.
 - **Pillar 2 — Sell vs. Hold AI Decision Engine:** Weighs ML price forecasts against crop spoilage rates and daily storage costs.
 - **Pillar 3 — Direct Buyer Matching & Marketplace:** Connects farmers directly with pre-verified retail, wholesale, and export buyers.
@@ -215,7 +215,7 @@ This section is directly formatted for your team to copy into your slide deck.
 
 ### Slide 6: Sell vs. Hold: Factoring Spoilage & Holding Costs
 - **The Dilemma:** "Tomato prices might go up by ₹3/kg in 4 days. Should I hold?"
-- **The SmartAgri Calculation:**
+- **The AgriSetu Calculation:**
   - Predicted price rise: $+₹3.00/\text{kg}$.
   - Daily storage cost (4 days): $-₹0.40/\text{kg}$.
   - Daily spoilage rate ($3\% \times 4\text{ days} = 12\%$ loss): $-₹3.60/\text{kg}$ equivalent loss.
@@ -250,7 +250,7 @@ This section is directly formatted for your team to copy into your slide deck.
 
 ### Slide 11: Competitive Advantage Matrix
 
-| Feature | Traditional Mandis (APMC) | e-NAM Portal | Other Agri Apps | **SmartAgri** |
+| Feature | Traditional Mandis (APMC) | e-NAM Portal | Other Agri Apps | **AgriSetu** |
 |:---|:---:|:---:|:---:|:---:|
 | **Net Realization Engine** | ❌ No | ❌ No | ❌ No | ✅ **Yes (Deducts Freight & Cess)** |
 | **Sell / Hold Spoilage AI** | ❌ No | ❌ No | ❌ No | ✅ **Yes (Considers shelf-life)** |
@@ -276,7 +276,7 @@ This section is directly formatted for your team to copy into your slide deck.
 ## 8. Mentor Presentation Script & Step-by-Step Demo Guide
 
 ### Script Introduction (30 seconds):
-> *"Respected mentors, across India, 86% of farmers are smallholders who sell their harvest at whichever mandi is closest or to the first commission agent who arrives at their farm gate. They have no way of knowing whether traveling 40 kilometers further would put more money in their pocket or cause a net loss due to diesel costs and mandi taxes. Today, we present **SmartAgri**, an intelligent decision-support and direct marketplace ecosystem built specifically for Telangana farmers."*
+> *"Respected mentors, across India, 86% of farmers are smallholders who sell their harvest at whichever mandi is closest or to the first commission agent who arrives at their farm gate. They have no way of knowing whether traveling 40 kilometers further would put more money in their pocket or cause a net loss due to diesel costs and mandi taxes. Today, we present **AgriSetu**, an intelligent decision-support and direct marketplace ecosystem built specifically for Telangana farmers."*
 
 ### Live Demo Steps:
 1. **Show the Landing Page:** Point out the bilingual branding and clear call-to-actions ("Join as Farmer", "Join as Buyer").
@@ -301,4 +301,4 @@ This section is directly formatted for your team to copy into your slide deck.
 ---
 
 ## 9. Conclusion
-SmartAgri transforms the agricultural supply chain from a speculative, middleman-dominated struggle into a transparent, data-driven marketplace. By bridging price forecasting, logistics economics, perishability models, and vernacular voice accessibility, the platform ensures that Telangana farmers retain the true value of their harvest.
+AgriSetu transforms the agricultural supply chain from a speculative, middleman-dominated struggle into a transparent, data-driven marketplace. By bridging price forecasting, logistics economics, perishability models, and vernacular voice accessibility, the platform ensures that Telangana farmers retain the true value of their harvest.

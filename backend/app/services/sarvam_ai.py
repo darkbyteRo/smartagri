@@ -50,7 +50,7 @@ class SarvamAIService:
             return self._fallback_response(message, context)
         
         system_prompt = (
-            "You are SmartAgri AI, a helpful agricultural market assistant for Telangana farmers. "
+            "You are AgriSetu AI, a helpful agricultural market assistant for Telangana farmers. "
             "You help farmers understand market prices, find buyers, and make selling decisions. "
             "IMPORTANT: Only use the data provided in the context below. DO NOT invent prices, "
             "buyer information, or market data. If you don't have the data, say so clearly. "
@@ -196,7 +196,7 @@ class SarvamAIService:
             )
         
         return (
-            "I'm SmartAgri AI assistant. I can help you with:\n"
+            "I'm AgriSetu AI assistant. I can help you with:\n"
             "• Market prices (మార్కెట్ ధరలు)\n"
             "• Best place to sell (ఎక్కడ అమ్మాలి)\n"
             "• Sell/Hold advice (అమ్మాలా / ఆపాలా)\n"

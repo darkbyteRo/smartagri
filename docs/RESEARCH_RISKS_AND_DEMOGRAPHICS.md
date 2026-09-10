@@ -1,4 +1,4 @@
-# SmartAgri: Research Evidence, Risk-Failure Mode Analysis & Telangana Demographics
+# AgriSetu: Research Evidence, Risk-Failure Mode Analysis & Telangana Demographics
 **Supporting Documentation for Presentation & Mentor Defense**
 **SIH Problem Statement 26132:** *Strengthening Market Linkages and Price Discovery for Farmers*
 
@@ -27,7 +27,7 @@ Any real-world system deployed in rural environments will encounter hardware, so
 | **M-1** | **Buyer Default / No-Show at Farm Gate** | A buyer offers ₹30/kg for 1000 kg, farmer harvests and packs, but buyer cancels or ghosts the farmer. | **Critical** | **1. Buyer Reliability Rating (0–100):** Algorithm tracks completed vs. cancelled transactions; cancellations drop reliability score by 25 points.<br>**2. Verified Badge:** Requires business GSTIN / trade license verification.<br>**3. Penalty Suspension:** 3 consecutive cancellations trigger automated account ban.<br>**4. Roadmap:** 10% Escrow / Token advance via UPI before harvest confirmation. |
 | **M-2** | **Quality Dispute at Farm Gate** | Farmer lists produce as "Grade A", but buyer arrives, claims it is "Grade C", and demands a 25% distress discount. | **High** | **1. Standardized Photo Checklist:** Farmer uploads 3 standardized photos (caliper/size gauge, color maturity, surface blemish) based on AGMARK standards.<br>**2. Agreed Tolerance Clause:** Listing contract includes a ±5% moisture/grading tolerance buffer.<br>**3. Dispute Mediation Portal:** Admin dashboard with frozen transactions until resolved. |
 | **M-3** | **Transportation Price Gouging** | Local mini-truck / auto-trolley drivers charge ₹8/km instead of the standard ₹4/km during peak harvest season. | **Medium** | **1. Editable Transport Parameters:** Net Realization Engine allows the farmer to override default transport rates (`₹/km/ton`) with local quotes.<br>**2. FPO Collective Freight Aggregation:** Groups listings from nearby villages into single multi-ton truck dispatches. |
-| **M-4** | **Traditional Debt Trap / Middlemen Lock-in** | Smallholder farmers have informal loans with local commission agents (Arhtiyas) who force them to sell only in their shop. | **High** | **1. Incremental Adoption Strategy:** Farmers test SmartAgri with 30–40% surplus harvest first.<br>**2. Transparent Arbitrage Proof:** Presenting side-by-side net realization empowers farmers to negotiate better rates with their existing local agents. |
+| **M-4** | **Traditional Debt Trap / Middlemen Lock-in** | Smallholder farmers have informal loans with local commission agents (Arhtiyas) who force them to sell only in their shop. | **High** | **1. Incremental Adoption Strategy:** Farmers test AgriSetu with 30–40% surplus harvest first.<br>**2. Transparent Arbitrage Proof:** Presenting side-by-side net realization empowers farmers to negotiate better rates with their existing local agents. |
 
 ---
 
@@ -101,7 +101,7 @@ Here is the data-backed defense:
 3. **Youth-Facilitated Smartphone Access:**
    - Over **78% of rural households have at least one working smartphone**, typically operated by the farmer's son, daughter, or younger relative.
    - Rural youth are already active users of digital payment systems (**PhonePe, Google Pay, Rythu Bandhu direct benefit transfer tracking**).
-4. **SmartAgri's Dual-Accessibility Engine:**
+4. **AgriSetu's Dual-Accessibility Engine:**
    - **Voice-First in Telugu:** Integrated **Sarvam AI Indic speech-to-text and text-to-speech**, allowing a non-literate farmer to speak in conversational Telugu:
      - *"ఎనుమాముల మార్కెట్లో టమాటా రేట్ ఎంత ఉంది?"* (What is the tomato price in Enumamula?)
    - **Gram Panchayat Assisted Access:** Deployable at village **Rythu Bharosa Kendras (RBKs)** or Common Service Centres (CSCs) where VLEs (Village Level Entrepreneurs) assist older farmers.
@@ -158,10 +158,10 @@ These references can be directly cited in your presentation slides, report bibli
 > **Answer:** *"Sir/Ma'am, our Sell/Hold engine does not give unconstrained speculative advice. For perishable crops like tomatoes with high spoilage (3%/day), the math heavily penalizes holding beyond 48 hours unless the predicted price rise is greater than the combined cost of storage and physical decay. Second, our system always outputs a **Confidence Score and Risk Level (LOW / MEDIUM / HIGH)** with explicit error bounds. If the confidence is below 60% or weather anomalies are detected, the system defaults to recommending an immediate sale or a partial hedge (selling 50% immediately to lock baseline profits)."*
 
 ### Q2: "Why would a buyer use your platform instead of just buying at the APMC yard?"
-> **Answer:** *"Bulk commercial buyers (retail chains like More/Reliance Retail, food processors, and exporters) spend 8% to 12% on APMC commission agent fees, loading charges, and multiple handling stages. By matching directly with farmers on SmartAgri, buyers get fresher produce with less transit bruising, transparent traceability, and lower procurement costs while still paying the farmer a higher net price than the local mandi."*
+> **Answer:** *"Bulk commercial buyers (retail chains like More/Reliance Retail, food processors, and exporters) spend 8% to 12% on APMC commission agent fees, loading charges, and multiple handling stages. By matching directly with farmers on AgriSetu, buyers get fresher produce with less transit bruising, transparent traceability, and lower procurement costs while still paying the farmer a higher net price than the local mandi."*
 
 ### Q3: "What if there is no internet network in a remote village?"
-> **Answer:** *"In Telangana, 10,833 out of ~12,769 Gram Panchayats are already connected via BharatNet/T-Fiber. For the ~250 interior agency villages with weak coverage, SmartAgri implements: (1) Offline local caching so farmers can view downloaded market rates, (2) Idempotent sync when connectivity resumes, and (3) Deployment through village Rythu Bharosa Kendras (RBKs) and Gram Panchayat common service kiosks."*
+> **Answer:** *"In Telangana, 10,833 out of ~12,769 Gram Panchayats are already connected via BharatNet/T-Fiber. For the ~250 interior agency villages with weak coverage, AgriSetu implements: (1) Offline local caching so farmers can view downloaded market rates, (2) Idempotent sync when connectivity resumes, and (3) Deployment through village Rythu Bharosa Kendras (RBKs) and Gram Panchayat common service kiosks."*
 
 ### Q4: "Most farmers in rural Telangana are not highly educated. How will they navigate this app?"
 > **Answer:** *"According to NFHS-5 and NSSO 77th Round data, 84.6% of rural households in Telangana have at least one member who has completed secondary school and owns a smartphone. Furthermore, we built **Sarvam AI Indic voice capability**, allowing non-literate farmers to simply press a microphone and speak in natural Telugu to get market prices and hold recommendations without reading a single English word."*
