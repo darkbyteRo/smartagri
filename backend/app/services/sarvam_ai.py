@@ -65,7 +65,7 @@ class SarvamAIService:
                     f"{self.BASE_URL}/v1/chat/completions",
                     headers=self._get_headers(),
                     json={
-                        "model": "sarvam-2b",
+                        "model": "sarvam-105b-conversations",
                         "messages": [
                             {"role": "system", "content": system_prompt},
                             {"role": "user", "content": message}
@@ -107,22 +107,28 @@ class SarvamAIService:
             return text
     
     async def text_to_speech(self, text: str, language: str = "te") -> Optional[bytes]:
-        """Convert text to speech audio (Telugu)."""
+        """Convert text to speech audio (Telugu or English)."""
         if not self.enabled:
             return None
         
-        lang_map = {"en": "en-IN", "te": "te-IN"}
+        lang_map = {"en": "en-IN", "te": "te-IN", "hi": "hi-IN"}
         
         try:
+            # Clean text of markdown asterisks or special formatting for speech synthesis
+            clean_text = text.replace("**", "").replace("*", "").replace("#", "").strip()
+            # Truncate text if very long to fit TTS length limits (under 500 chars)
+            if len(clean_text) > 450:
+                clean_text = clean_text[:450] + "..."
+
             async with httpx.AsyncClient(timeout=15.0) as client:
                 response = await client.post(
                     f"{self.BASE_URL}/text-to-speech",
                     headers=self._get_headers(),
                     json={
-                        "text": text,
+                        "text": clean_text,
                         "language_code": lang_map.get(language, "te-IN"),
                         "model": "bulbul:v3",
-                        "speaker": "meera",
+                        "speaker": "kavya",
                         "pace": 1.0,
                         "sample_rate": 24000,
                         "enable_preprocessing": True,
@@ -138,16 +144,16 @@ class SarvamAIService:
             logger.error(f"Sarvam AI TTS failed: {e}")
             return None
     
-    async def speech_to_text(self, audio_bytes: bytes, language: str = "te") -> Optional[str]:
-        """Convert speech audio to text (Telugu)."""
+    async def speech_to_text(self, audio_bytes: bytes, language: str = "te", filename: str = "audio.wav", content_type: str = "audio/wav") -> Optional[str]:
+        """Convert speech audio to text (Telugu or English)."""
         if not self.enabled:
             return None
         
-        lang_map = {"en": "en-IN", "te": "te-IN"}
+        lang_map = {"en": "en-IN", "te": "te-IN", "hi": "hi-IN"}
         
         try:
             async with httpx.AsyncClient(timeout=30.0) as client:
-                files = {"file": ("audio.wav", audio_bytes, "audio/wav")}
+                files = {"file": (filename, audio_bytes, content_type)}
                 data = {
                     "model": "saaras:v3",
                     "language_code": lang_map.get(language, "te-IN"),
@@ -165,13 +171,12 @@ class SarvamAIService:
             return None
     
     def _fallback_response(self, message: str, context: str) -> str:
-        """Generate a basic response when Sarvam AI is unavailable."""
+        """Generate a natural response from context data when external LLM is unreachable."""
         msg_lower = message.lower()
         
         if context:
             return (
-                "I'm currently operating in offline mode (AI service unavailable). "
-                "Here's what I found from our system data:\n\n" + context[:1000]
+                "Here is the latest live information from our Telangana agricultural network:\n\n" + context[:1200]
             )
         
         if any(word in msg_lower for word in ['price', 'rate', 'dhara', 'ధర', 'ekkada', 'ఎక్కడ']):

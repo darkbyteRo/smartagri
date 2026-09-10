@@ -106,9 +106,25 @@ class AssistantService:
                         detected_crop = crop
                         break
                 
+                # Detect market or district from message
+                from app.models.market import District
+                districts = self.db.query(District).all()
+                markets = self.db.query(Market).all()
+                detected_location = None
+                for d in districts:
+                    if d.name.lower() in message.lower():
+                        detected_location = d.name
+                        break
+                if not detected_location:
+                    for m in markets:
+                        m_base = m.name.split('(')[0].strip().lower()
+                        if m_base in message.lower() or (m.name_telugu and m.name_telugu in message):
+                            detected_location = m.name
+                            break
+
+                from sqlalchemy import func
                 if detected_crop:
-                    # Get latest prices across markets
-                    from sqlalchemy import func
+                    # Get latest prices across markets for detected crop
                     subq = self.db.query(
                         MarketPrice.market_id,
                         func.max(MarketPrice.price_date).label('max_date')
@@ -116,7 +132,7 @@ class AssistantService:
                         MarketPrice.crop_id == detected_crop.id
                     ).group_by(MarketPrice.market_id).subquery()
                     
-                    prices = self.db.query(MarketPrice, Market).join(
+                    prices_query = self.db.query(MarketPrice, Market).join(
                         subq,
                         (MarketPrice.market_id == subq.c.market_id) & 
                         (MarketPrice.price_date == subq.c.max_date)
@@ -124,7 +140,15 @@ class AssistantService:
                         MarketPrice.crop_id == detected_crop.id
                     ).all()
                     
+                    # Sort matching location to the very front if detected
+                    if detected_location:
+                        prices_query.sort(
+                            key=lambda item: 0 if detected_location.lower() in item[1].name.lower() else 1
+                        )
+                    
                     context["crop"] = {"id": detected_crop.id, "name": detected_crop.name}
+                    if detected_location:
+                        context["requested_location"] = detected_location
                     context["prices"] = [{
                         "market": m.name,
                         "modal_price": p.modal_price,
@@ -132,7 +156,35 @@ class AssistantService:
                         "max_price": p.max_price,
                         "date": str(p.price_date),
                         "source": p.source,
-                    } for p, m in prices[:10]]
+                    } for p, m in prices_query[:10]]
+                elif detected_location:
+                    # Crop not specified, but location is: fetch all crops in this location's markets
+                    matching_markets = [m for m in markets if detected_location.lower() in m.name.lower()]
+                    m_ids = [m.id for m in matching_markets]
+                    if m_ids:
+                        subq = self.db.query(
+                            MarketPrice.crop_id,
+                            func.max(MarketPrice.price_date).label('max_date')
+                        ).filter(MarketPrice.market_id.in_(m_ids)).group_by(MarketPrice.crop_id).subquery()
+
+                        prices_query = self.db.query(MarketPrice, Market, Crop).join(
+                            subq,
+                            (MarketPrice.crop_id == subq.c.crop_id) & 
+                            (MarketPrice.price_date == subq.c.max_date)
+                        ).join(Market, MarketPrice.market_id == Market.id).join(
+                            Crop, MarketPrice.crop_id == Crop.id
+                        ).filter(MarketPrice.market_id.in_(m_ids)).all()
+
+                        context["requested_location"] = detected_location
+                        context["prices"] = [{
+                            "crop": c.name,
+                            "market": m.name,
+                            "modal_price": p.modal_price,
+                            "min_price": p.min_price,
+                            "max_price": p.max_price,
+                            "date": str(p.price_date),
+                            "source": p.source,
+                        } for p, m, c in prices_query]
             
             if intent == "FIND_BUYER":
                 from app.models.buyer import Buyer
