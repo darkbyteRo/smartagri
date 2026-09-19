@@ -1,0 +1,160 @@
+
+=== SLIDE 1 ===
+  Other: Rectangle 24 (type: AUTO_SHAPE (1), pos: L=1524000, T=0)
+  Other: Freeform: Shape 26 (type: FREEFORM (5), pos: L=5656780, T=851521)
+  Other: Picture 4 (type: PICTURE (13), pos: L=6854891, T=1715881)
+  Shape: Title 7 (ID 8, pos: L=331286, T=-526757, W=10363200, H=2076450)
+    | SMART INDIA HACKATHON 2026
+  Shape: TextBox 9 (ID 10, pos: L=270934, T=1063837, W=10845800, H=5150449)
+    | Problem Statement ID –26132
+    | Problem Statement Title- Strengthening market
+    | linkages and price discovery for farmers
+    | Theme- Agriculture, FoodTech & Rural Development
+    | PS Category- Software
+    | Team ID-
+    | Team Name- AgriSetu
+  Other: Picture 1 (type: PICTURE (13), pos: L=9780086, T=1500)
+
+=== SLIDE 2 ===
+  Other: Rectangle 8 (type: AUTO_SHAPE (1), pos: L=0, T=6354762)
+  Shape: Title 1 (ID 15361, pos: L=182998, T=0, W=10972800, H=1143000)
+    | ArgiSetu-Intelligent Market Linkage & Price Discovery for Farmers
+  Shape: Slide Number Placeholder 5 (ID 6, pos: L=8737600, T=6356353, W=2844800, H=365125)
+    | 2
+  Shape: Footer Placeholder 6 (ID 7, pos: L=4648200, T=6356353, W=3204000, H=365125)
+    | @SIH Idea submission- Template
+  Shape: Oval 9 (ID 10, pos: L=329773, T=252246, W=1251857, H=807334)
+    | AgriSetu
+  Other: Picture 10 (type: PICTURE (13), pos: L=9780086, T=1500)
+  Shape: TextBox 1 (ID 2, pos: L=0, T=1059580, W=5361433, H=2585323)
+    | PROBLEMFarmers often see only the headline mandi price, while their actual earnings are reduced by transportation costs, mandi fees, storage expenses and crop spoilage. They also lack reliable price forecasts and direct access to suitable buyers, increasing their dependence on intermediaries.
+  Shape: TextBox 2 (ID 3, pos: L=8206275, T=1286231, W=3985292, H=2031325)
+    | OUR IDEASmartAgri is a single platform that helps farmers make better selling decisions by answering three questions:• WHERE to sell
+    | • WHEN to sell
+    | • WHOM to sell to
+  Shape: TextBox 3 (ID 4, pos: L=1, T=3305158, W=5476774, H=3416320)
+    | PROPOSED SOLUTION• Net Realization Engine – identifies the market where the farmer can earn the highest profit after expenses.• Sell vs Hold Engine – recommends whether to sell immediately, wait, or sell partially based on price forecasts, spoilage and storage costs.• Direct Buyer Matching – connects farmers with suitable buyers based on price, quantity, distance and reliability.• Telugu AI Assistant – provides personalized market guidance through Telugu voice and text.
+  Shape: TextBox 4 (ID 5, pos: L=8211868, T=3381625, W=4179754, H=3139321)
+    | INNOVATION & UNIQUENESS
+    | • Net Profit: Price → Actual Profit• Smart Timing: Forecast → Sell / Hold• Direct Link: Farmer → Buyer• Trust Score: Price + Reliability• Telugu AI: Voice + Text Advisory• One Decision: Data → Best Selling Option
+    | USP:PRICE → PROFIT → DECISION
+  Other: Picture 13 (type: PICTURE (13), pos: L=5616520, T=1477168)
+
+=== SLIDE 3 ===
+  Other: Rectangle 9 (type: AUTO_SHAPE (1), pos: L=0, T=6354762)
+  Shape: Title 1 (ID 17409, pos: L=609600, T=-47625, W=10972800, H=1143000)
+    | TECHNICAL APPROACH
+  Shape: TextBox 8 (ID 17410, pos: L=77002, T=1059581, W=5794409, H=5262979)
+    | FRONTENDNext.js • React • Tailwind CSS→ Farmer-facing web interface
+    | BACKENDFastAPI • Python • REST APIs→ Handles application logic, calculations & requests
+    | DATABASEPostgreSQL • Supabase • SQLAlchemy→ Stores farmer, buyer, crop, market & transaction data
+    | AI & MACHINE LEARNINGScikit-learn • XGBoost • Pandas • NumPy→ Price forecasting, data analysis & intelligent recommendations
+    | TELUGU AISarvam AI→ Telugu voice & text-based farmer advisory
+    | DATA SOURCESAgmarknet • Market Data • Buyer Data • Location/Transport Data→ Provides the information required for market analysis
+    | CORE ENGINESNet Realization • Sell vs Hold • Buyer Matching→ Converts market data into actionable selling decisions
+  Shape: Slide Number Placeholder 5 (ID 6, pos: L=8737600, T=6356353, W=2844800, H=365125)
+    | 3
+  Shape: Footer Placeholder 6 (ID 7, pos: L=4648200, T=6356353, W=3204000, H=365125)
+    | @SIH Idea submission- Template
+  Shape: Oval 10 (ID 11, pos: L=329773, T=252246, W=1251857, H=807334)
+    | AgriSetu
+  Other: Picture 11 (type: PICTURE (13), pos: L=9780086, T=1500)
+  Other: Picture 2 (type: PICTURE (13), pos: L=5871411, T=1095375)
+  Shape: TextBox 3 (ID 4, pos: L=9631906, T=1549399, W=1394934, H=646331)
+    | Github link:
+
+=== SLIDE 4 ===
+  Other: Rectangle 9 (type: AUTO_SHAPE (1), pos: L=0, T=6354762)
+  Shape: Title 1 (ID 17409, pos: L=609600, T=-47625, W=10972800, H=1143000)
+    | FEASIBILITY AND VIABILITY
+  Shape: Slide Number Placeholder 5 (ID 6, pos: L=8737600, T=6356353, W=2844800, H=365125)
+    | 4
+  Shape: Footer Placeholder 6 (ID 7, pos: L=4648200, T=6356353, W=3204000, H=365125)
+    | @SIH Idea submission- Template
+  Shape: Oval 11 (ID 12, pos: L=329773, T=252246, W=1251857, H=807334)
+    | AgriSetu
+  Other: Picture 10 (type: PICTURE (13), pos: L=9780086, T=1500)
+  Shape: TextBox 1 (ID 2, pos: L=48125, T=1164789, W=6631807, H=2862322)
+    | FEASIBILITY — WHY IT CAN WORK
+    | Existing Technology: Next.js, FastAPI, PostgreSQL and ML are proven technologies.
+    | Available Data: Mandi price data can be sourced from Agmarknet.
+    | Modular System: Price prediction, buyer matching and advisory can work as independent modules.
+    | Regional Access: Telugu voice/text through Sarvam AI makes the platform easier for farmers to use.
+    | Scalable: Can expand from pilot markets to more crops, districts and FPOs.
+  Shape: TextBox 2 (ID 3, pos: L=0, T=4121075, W=6728059, H=2031325)
+    | KEY CHALLENGES & RISKS
+    | Stale / unavailable mandi data
+    | Incorrect price predictions due to sudden market or weather changes
+    | Poor rural internet connectivity
+    | Buyer cancellations or payment issues
+    | Quality disputes between farmers and buyers
+    | Variation in transportation costs
+  Shape: TextBox 3 (ID 4, pos: L=6679932, T=804672, W=5350005, H=3693319)
+    | STRATEGIES TO OVERCOME
+    | Data Failure → Use historical price fallback + clearly show last update time.
+    | Prediction Risk → Show confidence level & risk category; avoid guaranteed predictions.
+    | Poor Connectivity → Lightweight interface + offline caching + sync when internet returns.
+    | Buyer Risk → Reliability score + verified buyer profiles + cancellation tracking.
+    | Quality Disputes → Standardized produce photos + agreed quality criteria + dispute mechanism.
+    | Transport Cost Changes → Allow farmers to update local transport rates.
+  Shape: TextBox 4 (ID 5, pos: L=6473953, T=4407409, W=5901620, H=1754326)
+    | VIABILITY
+    | Low-cost Software → Existing Data Sources → Modular AI → Regional Language → Scalable Deployment
+    | Result: A practical, scalable platform that can continue functioning even when individual data, connectivity or prediction components fail.
+
+=== SLIDE 5 ===
+  Other: Rectangle 9 (type: AUTO_SHAPE (1), pos: L=0, T=6354762)
+  Shape: Title 1 (ID 17409, pos: L=609600, T=-47625, W=10972800, H=1143000)
+    | IMPACT AND BENEFITS
+  Shape: Slide Number Placeholder 5 (ID 6, pos: L=8737600, T=6356353, W=2844800, H=365125)
+    | 5
+  Shape: Footer Placeholder 6 (ID 7, pos: L=4648200, T=6356353, W=3204000, H=365125)
+    | @SIH Idea submission- Template
+  Shape: Oval 11 (ID 12, pos: L=329773, T=252246, W=1251857, H=807334)
+    | AgriSetu
+  Other: Picture 10 (type: PICTURE (13), pos: L=9780086, T=1500)
+  Table: Table 2 (ID 3, pos: L=154006, T=1511166, W=8662737, H=2108476)
+    Row: MARKET DATA | AGRISETU INTELLIGENCE | FARMER ACTION | IMPACT
+    Row: Mandi Prices | Net Realization | WHERE to Sell | Better Value
+    Row: Transport Costs | Price Forecast | WHEN to Sell | Lower Costs
+    Row: Buyer Offers | Buyer Matching | WHOM to Sell | Less Wastage
+    Row: Spoilage Data | Telugu AI | Better Decisions | Stronger Bargaining
+  Shape: TextBox 3 (ID 4, pos: L=128121, T=987946, W=2242687, H=523220)
+    | Impact table
+  Shape: TextBox 4 (ID 5, pos: L=128121, T=3758013, W=2268570, H=523220)
+    | Benefits table
+  Table: Table 8 (ID 9, pos: L=135467, T=4281233, W=9576425, H=1933157)
+    Row: Target Audience / Area | Key Benefits
+    Row: Farmers | Better net realization • Direct buyer access • Informed selling decisions
+    Row:  Economic | Transparent price discovery • Lower transaction costs • Stronger bargaining power
+    Row:  Social | Telugu voice/text access • Reduced information gap • More inclusive market access
+    Row:  Environmental | Reduced produce wastage • More efficient transportation
+
+=== SLIDE 6 ===
+  Other: Rectangle 9 (type: AUTO_SHAPE (1), pos: L=0, T=6354762)
+  Shape: Title 1 (ID 17409, pos: L=609600, T=-47625, W=10972800, H=1143000)
+    | RESEARCH  AND REFERENCES
+  Shape: Slide Number Placeholder 5 (ID 6, pos: L=8737600, T=6356353, W=2844800, H=365125)
+    | 6
+  Shape: Footer Placeholder 6 (ID 7, pos: L=4648200, T=6356353, W=3204000, H=365125)
+    | @SIH Idea submission- Template
+  Shape: Oval 8 (ID 9, pos: L=329773, T=252246, W=1251857, H=807334)
+    | AgriSetu
+  Other: Picture 11 (type: PICTURE (13), pos: L=9780086, T=1500)
+  Shape: TextBox 1 (ID 2, pos: L=2180844, T=1047229, W=2148840, H=461665)
+    | Research basis
+  Table: Table 3 (ID 4, pos: L=173736, T=1428912, W=6153912, H=4789330)
+    Row: Research Area | Evidence Used | How it Supports SmartAgri
+    Row:  Farmer Profile | Telangana Socio-Economic Outlook | Focus on small & marginal farmers
+    Row: Market Prices | Agmarknet | Mandi prices, arrivals & price comparison
+    Row:  Post-Harvest Loss | ICAR-CIPHET | Supports spoilage-aware Sell/Hold decisions
+    Row: Market Linkages | NSSO Report 587 | Supports direct farmer–buyer connectivity
+    Row:  Digital Access | TRAI Reports | Supports mobile-first + offline approach
+    Row:  Regional AI | Sarvam AI | Enables Telugu voice/text assistance
+  Shape: TextBox 4 (ID 5, pos: L=8344481, T=1031311, W=1666675, H=461665)
+    | References
+  Shape: TextBox 7 (ID 8, pos: L=7324344, T=1629496, W=4599432, H=4247317)
+    | Government of Telangana — Socio-Economic Outlook 2024
+    | DMI / Agmarknet — Agricultural market prices & arrivals
+    | MoSPI / NSSO — Report No. 587, Situation Assessment of Agricultural HouseholdsICAR-CIPHET — Post-harvest management & losses
+    | TRAI — Rural digital connectivity reportsSarvam AI — Telugu Speech & Language APIs

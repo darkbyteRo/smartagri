@@ -1,0 +1,69 @@
+Total slides: 6
+
+=== Slide 1 ===
+  Text [Rectangle 24]: 
+  Text [Freeform: Shape 26]: 
+  Picture [Picture 4]: size=3203509x3426237
+  Text [Title 7]: SMART INDIA HACKATHON 2026
+  Text [TextBox 9]: Problem Statement ID – 26132 Problem Statement Title – Strengthening market linkages and price disco
+  Picture [Picture 1]: size=2249850x1062337
+
+=== Slide 2 ===
+  Text [Rectangle 8]: 
+  Text [Title 1]: AgriSetu– Intelligent Market Linkage & Price Discovery for Farmers
+  Text [Slide Number Placeholder 5]: 2
+  Text [Footer Placeholder 6]: @SIH Idea submission- Template
+  Text [Oval 9]: AgriSetu
+  Picture [Picture 10]: size=2249850x1062337
+  Text [TextBox 1]: PROBLEM • Opaque Mandi Prices: Headline rates hide transport & mandi fees. • Middleman Tax: 8%–10% h
+  Text [TextBox 2]: OUR IDEA AgriSetu answers 3 critical selling decisions in 1 click: • WHERE to sell: Mandi delivering
+  Text [TextBox 3]: PROPOSED SOLUTION Formula: Net ₹ = Mandi Price - (Transport + Cess + Spoilage) • Net Realization Eng
+  Text [TextBox 4]: INNOVATION & UNIQUENESS • True Net Profit: Focuses on wallet cash, not gross board price • Decay-Awa
+  Picture [Picture 13]: size=2219325x4543425
+
+=== Slide 3 ===
+  Text [Rectangle 9]: 
+  Text [Title 1]: TECHNICAL APPROACH
+  Text [TextBox 8]: FRONTEND Next.js 16 • React 19 • Tailwind CSS → Responsive, offline PWA BACKEND FastAPI • Python 3.1
+  Text [Slide Number Placeholder 5]: 3
+  Text [Footer Placeholder 6]: @SIH Idea submission- Template
+  Text [Oval 10]: AgriSetu
+  Picture [Picture 11]: size=2249850x1062337
+  Picture [Picture 2]: size=3375357x5023094
+  Text [TextBox 3]: Github: github.com/darkbyteRo/smartagri ● LIVE WORKING PROTOTYPE TESTED
+
+=== Slide 4 ===
+  Text [Rectangle 9]: 
+  Text [Title 1]: FEASIBILITY AND VIABILITY
+  Text [Slide Number Placeholder 5]: 4
+  Text [Footer Placeholder 6]: @SIH Idea submission- Template
+  Text [Oval 11]: AgriSetu
+  Picture [Picture 10]: size=2249850x1062337
+  Text [TextBox 1]: FEASIBILITY — WHY IT CAN WORK • Open Govt Data: Uses public Agmarknet APIs (Zero sensor CAPEX). • Pr
+  Text [TextBox 2]: KEY CHALLENGES & RISKS • Stale / delayed mandi arrival feeds • Price volatility during sudden weathe
+  Text [TextBox 3]: STRATEGIES TO OVERCOME • Data Fallback: Live API ──▶ Local Cache ──▶ 30-Day Moving Average • Predict
+  Text [TextBox 4]: VIABILITY & OPERATIONAL SUSTAINABILITY • Zero Cost to Farmers: Core market intelligence & advisory a
+
+=== Slide 5 ===
+  Text [Rectangle 9]: 
+  Text [Title 1]: IMPACT AND BENEFITS
+  Text [Slide Number Placeholder 5]: 5
+  Text [Footer Placeholder 6]: @SIH Idea submission- Template
+  Text [Oval 11]: AgriSetu
+  Picture [Picture 10]: size=2249850x1062337
+  Table [Table 2]: 5 rows x 4 cols -> Header: MARKET DATA | AGRISETU INTELLIGENCE | FARMER ACTION | MEASURABLE IMPACT
+  Text [TextBox 3]: Impact table
+  Text [TextBox 4]: Benefits table
+  Table [Table 8]: 5 rows x 2 cols -> Header: Target Beneficiary | Key Quantifiable Benefits
+
+=== Slide 6 ===
+  Text [Rectangle 9]: 
+  Text [Title 1]: RESEARCH  AND REFERENCES
+  Text [Slide Number Placeholder 5]: 6
+  Text [Footer Placeholder 6]: @SIH Idea submission- Template
+  Text [Oval 8]: AgriSetu
+  Picture [Picture 11]: size=2249850x1062337
+  Text [TextBox 1]: Research basis
+  Table [Table 3]: 7 rows x 3 cols -> Header: Research Area | Evidence Used | How it Supports AgriSetu
+  Text [TextBox 4]: References
+  Text [TextBox 7]: • Government of Telangana (2024) — Socio-Economic Outlook, Planning Dept. • DMI / Agmarknet — Agricu

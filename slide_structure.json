@@ -1,0 +1,671 @@
+[
+  {
+    "slide": 1,
+    "shapes": [
+      {
+        "name": "Rectangle 24",
+        "id": 36,
+        "left": 1524000,
+        "top": 0,
+        "width": 9144000,
+        "height": 6858000,
+        "type": "AUTO_SHAPE (1)",
+        "text": ""
+      },
+      {
+        "name": "Freeform: Shape 26",
+        "id": 37,
+        "left": 5656780,
+        "top": 851521,
+        "width": 4638605,
+        "height": 5154967,
+        "type": "FREEFORM (5)",
+        "text": ""
+      },
+      {
+        "name": "Picture 4",
+        "id": 5,
+        "left": 6854891,
+        "top": 1715881,
+        "width": 3203509,
+        "height": 3426237,
+        "type": "PICTURE (13)"
+      },
+      {
+        "name": "Title 7",
+        "id": 8,
+        "left": 331286,
+        "top": -526757,
+        "width": 10363200,
+        "height": 2076450,
+        "type": "PLACEHOLDER (14)",
+        "text": "SMART INDIA HACKATHON 2026"
+      },
+      {
+        "name": "TextBox 9",
+        "id": 10,
+        "left": 270934,
+        "top": 1063837,
+        "width": 10845800,
+        "height": 5150449,
+        "type": "TEXT_BOX (17)",
+        "text": "Problem Statement ID –26132\nProblem Statement Title- Strengthening market \nlinkages and price discovery for farmers\nTheme- Agriculture, FoodTech & Rural Development\nPS Category- Software\nTeam ID-\nTeam Name- AgriSetu"
+      },
+      {
+        "name": "Picture 1",
+        "id": 2,
+        "left": 9780086,
+        "top": 1500,
+        "width": 2249850,
+        "height": 1062337,
+        "type": "PICTURE (13)"
+      }
+    ]
+  },
+  {
+    "slide": 2,
+    "shapes": [
+      {
+        "name": "Rectangle 8",
+        "id": 9,
+        "left": 0,
+        "top": 6354762,
+        "width": 12191999,
+        "height": 503238,
+        "type": "AUTO_SHAPE (1)",
+        "text": ""
+      },
+      {
+        "name": "Title 1",
+        "id": 15361,
+        "left": 182998,
+        "top": 0,
+        "width": 10972800,
+        "height": 1143000,
+        "type": "PLACEHOLDER (14)",
+        "text": "ArgiSetu-\u000bIntelligent Market Linkage & Price Discovery for Farmers"
+      },
+      {
+        "name": "Slide Number Placeholder 5",
+        "id": 6,
+        "left": 8737600,
+        "top": 6356353,
+        "width": 2844800,
+        "height": 365125,
+        "type": "PLACEHOLDER (14)",
+        "text": "2"
+      },
+      {
+        "name": "Footer Placeholder 6",
+        "id": 7,
+        "left": 4648200,
+        "top": 6356353,
+        "width": 3204000,
+        "height": 365125,
+        "type": "PLACEHOLDER (14)",
+        "text": "@SIH Idea submission- Template"
+      },
+      {
+        "name": "Oval 9",
+        "id": 10,
+        "left": 329773,
+        "top": 252246,
+        "width": 1251857,
+        "height": 807334,
+        "type": "AUTO_SHAPE (1)",
+        "text": "AgriSetu"
+      },
+      {
+        "name": "Picture 10",
+        "id": 11,
+        "left": 9780086,
+        "top": 1500,
+        "width": 2249850,
+        "height": 1062337,
+        "type": "PICTURE (13)"
+      },
+      {
+        "name": "TextBox 1",
+        "id": 2,
+        "left": 0,
+        "top": 1059580,
+        "width": 5361433,
+        "height": 2585323,
+        "type": "TEXT_BOX (17)",
+        "text": "\nPROBLEM\u000bFarmers often see only the headline mandi price, while their actual earnings are reduced by transportation costs, mandi fees, storage expenses and crop spoilage. They also lack reliable price forecasts and direct access to suitable buyers, increasing their dependence on intermediaries.\n"
+      },
+      {
+        "name": "TextBox 2",
+        "id": 3,
+        "left": 8206275,
+        "top": 1286231,
+        "width": 3985292,
+        "height": 2031325,
+        "type": "TEXT_BOX (17)",
+        "text": "OUR IDEA\u000bSmartAgri is a single platform that helps farmers make better selling decisions by answering three questions:\u000b• WHERE to sell\n• WHEN to sell \n• WHOM to sell to"
+      },
+      {
+        "name": "TextBox 3",
+        "id": 4,
+        "left": 1,
+        "top": 3305158,
+        "width": 5476774,
+        "height": 3416320,
+        "type": "TEXT_BOX (17)",
+        "text": "PROPOSED SOLUTION\u000b• Net Realization Engine – identifies the market where the farmer can earn the highest profit after expenses.\u000b• Sell vs Hold Engine – recommends whether to sell immediately, wait, or sell partially based on price forecasts, spoilage and storage costs.\u000b• Direct Buyer Matching – connects farmers with suitable buyers based on price, quantity, distance and reliability.\u000b• Telugu AI Assistant – provides personalized market guidance through Telugu voice and text. \n\n"
+      },
+      {
+        "name": "TextBox 4",
+        "id": 5,
+        "left": 8211868,
+        "top": 3381625,
+        "width": 4179754,
+        "height": 3139321,
+        "type": "TEXT_BOX (17)",
+        "text": "INNOVATION & UNIQUENESS\n• Net Profit: Price → Actual Profit\u000b• Smart Timing: Forecast → Sell / Hold\u000b• Direct Link: Farmer → Buyer\u000b• Trust Score: Price + Reliability\u000b• Telugu AI: Voice + Text Advisory\u000b• One Decision: Data → Best Selling Option\nUSP:\u000bPRICE → PROFIT → DECISION\n"
+      },
+      {
+        "name": "Picture 13",
+        "id": 14,
+        "left": 5616520,
+        "top": 1477168,
+        "width": 2219325,
+        "height": 4543425,
+        "type": "PICTURE (13)"
+      }
+    ]
+  },
+  {
+    "slide": 3,
+    "shapes": [
+      {
+        "name": "Rectangle 9",
+        "id": 10,
+        "left": 0,
+        "top": 6354762,
+        "width": 12191999,
+        "height": 503238,
+        "type": "AUTO_SHAPE (1)",
+        "text": ""
+      },
+      {
+        "name": "Title 1",
+        "id": 17409,
+        "left": 609600,
+        "top": -47625,
+        "width": 10972800,
+        "height": 1143000,
+        "type": "PLACEHOLDER (14)",
+        "text": "TECHNICAL APPROACH"
+      },
+      {
+        "name": "TextBox 8",
+        "id": 17410,
+        "left": 77002,
+        "top": 1059581,
+        "width": 5794409,
+        "height": 5262979,
+        "type": "TEXT_BOX (17)",
+        "text": "FRONTEND\u000bNext.js • React • Tailwind CSS\u000b→ Farmer-facing web interface\nBACKEND\u000bFastAPI • Python • REST APIs\u000b→ Handles application logic, calculations & requests\nDATABASE\u000bPostgreSQL • Supabase • SQLAlchemy\u000b→ Stores farmer, buyer, crop, market & transaction data\nAI & MACHINE LEARNING\u000bScikit-learn • XGBoost • Pandas • NumPy\u000b→ Price forecasting, data analysis & intelligent recommendations\nTELUGU AI\u000bSarvam AI\u000b→ Telugu voice & text-based farmer advisory\nDATA SOURCES\u000bAgmarknet • Market Data • Buyer Data • Location/Transport Data\u000b→ Provides the information required for market analysis\nCORE ENGINES\u000bNet Realization • Sell vs Hold • Buyer Matching\u000b→ Converts market data into actionable selling decisions"
+      },
+      {
+        "name": "Slide Number Placeholder 5",
+        "id": 6,
+        "left": 8737600,
+        "top": 6356353,
+        "width": 2844800,
+        "height": 365125,
+        "type": "PLACEHOLDER (14)",
+        "text": "3"
+      },
+      {
+        "name": "Footer Placeholder 6",
+        "id": 7,
+        "left": 4648200,
+        "top": 6356353,
+        "width": 3204000,
+        "height": 365125,
+        "type": "PLACEHOLDER (14)",
+        "text": "@SIH Idea submission- Template"
+      },
+      {
+        "name": "Oval 10",
+        "id": 11,
+        "left": 329773,
+        "top": 252246,
+        "width": 1251857,
+        "height": 807334,
+        "type": "AUTO_SHAPE (1)",
+        "text": "AgriSetu"
+      },
+      {
+        "name": "Picture 11",
+        "id": 12,
+        "left": 9780086,
+        "top": 1500,
+        "width": 2249850,
+        "height": 1062337,
+        "type": "PICTURE (13)"
+      },
+      {
+        "name": "Picture 2",
+        "id": 3,
+        "left": 5871411,
+        "top": 1095375,
+        "width": 3375357,
+        "height": 5023094,
+        "type": "PICTURE (13)"
+      },
+      {
+        "name": "TextBox 3",
+        "id": 4,
+        "left": 9631906,
+        "top": 1549399,
+        "width": 1394934,
+        "height": 646331,
+        "type": "TEXT_BOX (17)",
+        "text": "Github link:\n"
+      }
+    ]
+  },
+  {
+    "slide": 4,
+    "shapes": [
+      {
+        "name": "Rectangle 9",
+        "id": 10,
+        "left": 0,
+        "top": 6354762,
+        "width": 12191999,
+        "height": 503238,
+        "type": "AUTO_SHAPE (1)",
+        "text": ""
+      },
+      {
+        "name": "Title 1",
+        "id": 17409,
+        "left": 609600,
+        "top": -47625,
+        "width": 10972800,
+        "height": 1143000,
+        "type": "PLACEHOLDER (14)",
+        "text": "FEASIBILITY AND VIABILITY"
+      },
+      {
+        "name": "Slide Number Placeholder 5",
+        "id": 6,
+        "left": 8737600,
+        "top": 6356353,
+        "width": 2844800,
+        "height": 365125,
+        "type": "PLACEHOLDER (14)",
+        "text": "4"
+      },
+      {
+        "name": "Footer Placeholder 6",
+        "id": 7,
+        "left": 4648200,
+        "top": 6356353,
+        "width": 3204000,
+        "height": 365125,
+        "type": "PLACEHOLDER (14)",
+        "text": "@SIH Idea submission- Template"
+      },
+      {
+        "name": "Oval 11",
+        "id": 12,
+        "left": 329773,
+        "top": 252246,
+        "width": 1251857,
+        "height": 807334,
+        "type": "AUTO_SHAPE (1)",
+        "text": "AgriSetu"
+      },
+      {
+        "name": "Picture 10",
+        "id": 11,
+        "left": 9780086,
+        "top": 1500,
+        "width": 2249850,
+        "height": 1062337,
+        "type": "PICTURE (13)"
+      },
+      {
+        "name": "TextBox 1",
+        "id": 2,
+        "left": 48125,
+        "top": 1164789,
+        "width": 6631807,
+        "height": 2862322,
+        "type": "TEXT_BOX (17)",
+        "text": " FEASIBILITY — WHY IT CAN WORK\nExisting Technology: Next.js, FastAPI, PostgreSQL and ML are proven technologies.\nAvailable Data: Mandi price data can be sourced from Agmarknet.\nModular System: Price prediction, buyer matching and advisory can work as independent modules.\nRegional Access: Telugu voice/text through Sarvam AI makes the platform easier for farmers to use.\nScalable: Can expand from pilot markets to more crops, districts and FPOs."
+      },
+      {
+        "name": "TextBox 2",
+        "id": 3,
+        "left": 0,
+        "top": 4121075,
+        "width": 6728059,
+        "height": 2031325,
+        "type": "TEXT_BOX (17)",
+        "text": " KEY CHALLENGES & RISKS\nStale / unavailable mandi data\nIncorrect price predictions due to sudden market or weather changes\nPoor rural internet connectivity\nBuyer cancellations or payment issues\nQuality disputes between farmers and buyers\nVariation in transportation costs"
+      },
+      {
+        "name": "TextBox 3",
+        "id": 4,
+        "left": 6679932,
+        "top": 804672,
+        "width": 5350005,
+        "height": 3693319,
+        "type": "TEXT_BOX (17)",
+        "text": " STRATEGIES TO OVERCOME\nData Failure → Use historical price fallback + clearly show last update time.\nPrediction Risk → Show confidence level & risk category; avoid guaranteed predictions.\nPoor Connectivity → Lightweight interface + offline caching + sync when internet returns.\nBuyer Risk → Reliability score + verified buyer profiles + cancellation tracking.\nQuality Disputes → Standardized produce photos + agreed quality criteria + dispute mechanism.\nTransport Cost Changes → Allow farmers to update local transport rates."
+      },
+      {
+        "name": "TextBox 4",
+        "id": 5,
+        "left": 6473953,
+        "top": 4407409,
+        "width": 5901620,
+        "height": 1754326,
+        "type": "TEXT_BOX (17)",
+        "text": "VIABILITY\nLow-cost Software → Existing Data Sources → Modular AI → Regional Language → Scalable Deployment\nResult: A practical, scalable platform that can continue functioning even when individual data, connectivity or prediction components fail."
+      }
+    ]
+  },
+  {
+    "slide": 5,
+    "shapes": [
+      {
+        "name": "Rectangle 9",
+        "id": 10,
+        "left": 0,
+        "top": 6354762,
+        "width": 12191999,
+        "height": 503238,
+        "type": "AUTO_SHAPE (1)",
+        "text": ""
+      },
+      {
+        "name": "Title 1",
+        "id": 17409,
+        "left": 609600,
+        "top": -47625,
+        "width": 10972800,
+        "height": 1143000,
+        "type": "PLACEHOLDER (14)",
+        "text": "IMPACT AND BENEFITS"
+      },
+      {
+        "name": "Slide Number Placeholder 5",
+        "id": 6,
+        "left": 8737600,
+        "top": 6356353,
+        "width": 2844800,
+        "height": 365125,
+        "type": "PLACEHOLDER (14)",
+        "text": "5"
+      },
+      {
+        "name": "Footer Placeholder 6",
+        "id": 7,
+        "left": 4648200,
+        "top": 6356353,
+        "width": 3204000,
+        "height": 365125,
+        "type": "PLACEHOLDER (14)",
+        "text": "@SIH Idea submission- Template"
+      },
+      {
+        "name": "Oval 11",
+        "id": 12,
+        "left": 329773,
+        "top": 252246,
+        "width": 1251857,
+        "height": 807334,
+        "type": "AUTO_SHAPE (1)",
+        "text": "AgriSetu"
+      },
+      {
+        "name": "Picture 10",
+        "id": 11,
+        "left": 9780086,
+        "top": 1500,
+        "width": 2249850,
+        "height": 1062337,
+        "type": "PICTURE (13)"
+      },
+      {
+        "name": "Table 2",
+        "id": 3,
+        "left": 154006,
+        "top": 1511166,
+        "width": 8662737,
+        "height": 2108476,
+        "type": "TABLE (19)",
+        "table": [
+          [
+            "MARKET DATA",
+            "AGRISETU INTELLIGENCE",
+            "FARMER ACTION",
+            "IMPACT"
+          ],
+          [
+            "Mandi Prices",
+            "Net Realization",
+            "WHERE to Sell",
+            "Better Value"
+          ],
+          [
+            "Transport Costs",
+            "Price Forecast",
+            "WHEN to Sell",
+            "Lower Costs"
+          ],
+          [
+            "Buyer Offers",
+            "Buyer Matching",
+            "WHOM to Sell",
+            "Less Wastage"
+          ],
+          [
+            "Spoilage Data",
+            "Telugu AI",
+            "Better Decisions",
+            "Stronger Bargaining"
+          ]
+        ]
+      },
+      {
+        "name": "TextBox 3",
+        "id": 4,
+        "left": 128121,
+        "top": 987946,
+        "width": 2242687,
+        "height": 523220,
+        "type": "TEXT_BOX (17)",
+        "text": "Impact table"
+      },
+      {
+        "name": "TextBox 4",
+        "id": 5,
+        "left": 128121,
+        "top": 3758013,
+        "width": 2268570,
+        "height": 523220,
+        "type": "TEXT_BOX (17)",
+        "text": "Benefits table"
+      },
+      {
+        "name": "Table 8",
+        "id": 9,
+        "left": 135467,
+        "top": 4281233,
+        "width": 9576425,
+        "height": 1933157,
+        "type": "TABLE (19)",
+        "table": [
+          [
+            "Target Audience / Area",
+            "Key Benefits"
+          ],
+          [
+            "Farmers",
+            "Better net realization • Direct buyer access • Informed selling decisions"
+          ],
+          [
+            " Economic",
+            "Transparent price discovery • Lower transaction costs • Stronger bargaining power"
+          ],
+          [
+            " Social",
+            "Telugu voice/text access • Reduced information gap • More inclusive market access"
+          ],
+          [
+            " Environmental",
+            "Reduced produce wastage • More efficient transportation"
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "slide": 6,
+    "shapes": [
+      {
+        "name": "Rectangle 9",
+        "id": 10,
+        "left": 0,
+        "top": 6354762,
+        "width": 12191999,
+        "height": 503238,
+        "type": "AUTO_SHAPE (1)",
+        "text": ""
+      },
+      {
+        "name": "Title 1",
+        "id": 17409,
+        "left": 609600,
+        "top": -47625,
+        "width": 10972800,
+        "height": 1143000,
+        "type": "PLACEHOLDER (14)",
+        "text": "RESEARCH  AND REFERENCES"
+      },
+      {
+        "name": "Slide Number Placeholder 5",
+        "id": 6,
+        "left": 8737600,
+        "top": 6356353,
+        "width": 2844800,
+        "height": 365125,
+        "type": "PLACEHOLDER (14)",
+        "text": "6"
+      },
+      {
+        "name": "Footer Placeholder 6",
+        "id": 7,
+        "left": 4648200,
+        "top": 6356353,
+        "width": 3204000,
+        "height": 365125,
+        "type": "PLACEHOLDER (14)",
+        "text": "@SIH Idea submission- Template"
+      },
+      {
+        "name": "Oval 8",
+        "id": 9,
+        "left": 329773,
+        "top": 252246,
+        "width": 1251857,
+        "height": 807334,
+        "type": "AUTO_SHAPE (1)",
+        "text": "AgriSetu"
+      },
+      {
+        "name": "Picture 11",
+        "id": 12,
+        "left": 9780086,
+        "top": 1500,
+        "width": 2249850,
+        "height": 1062337,
+        "type": "PICTURE (13)"
+      },
+      {
+        "name": "TextBox 1",
+        "id": 2,
+        "left": 2180844,
+        "top": 1047229,
+        "width": 2148840,
+        "height": 461665,
+        "type": "TEXT_BOX (17)",
+        "text": "Research basis"
+      },
+      {
+        "name": "Table 3",
+        "id": 4,
+        "left": 173736,
+        "top": 1428912,
+        "width": 6153912,
+        "height": 4789330,
+        "type": "TABLE (19)",
+        "table": [
+          [
+            "Research Area",
+            "Evidence Used",
+            "How it Supports SmartAgri"
+          ],
+          [
+            " Farmer Profile",
+            "Telangana Socio-Economic Outlook",
+            "Focus on small & marginal farmers"
+          ],
+          [
+            "Market Prices",
+            "Agmarknet",
+            "Mandi prices, arrivals & price comparison"
+          ],
+          [
+            " Post-Harvest Loss",
+            "ICAR-CIPHET",
+            "Supports spoilage-aware Sell/Hold decisions"
+          ],
+          [
+            "Market Linkages",
+            "NSSO Report 587",
+            "Supports direct farmer–buyer connectivity"
+          ],
+          [
+            " Digital Access",
+            "TRAI Reports",
+            "Supports mobile-first + offline approach"
+          ],
+          [
+            " Regional AI",
+            "Sarvam AI",
+            "Enables Telugu voice/text assistance"
+          ]
+        ]
+      },
+      {
+        "name": "TextBox 4",
+        "id": 5,
+        "left": 8344481,
+        "top": 1031311,
+        "width": 1666675,
+        "height": 461665,
+        "type": "TEXT_BOX (17)",
+        "text": "References "
+      },
+      {
+        "name": "TextBox 7",
+        "id": 8,
+        "left": 7324344,
+        "top": 1629496,
+        "width": 4599432,
+        "height": 4247317,
+        "type": "TEXT_BOX (17)",
+        "text": "Government of Telangana — Socio-Economic Outlook 2024\n\u000bDMI / Agmarknet — Agricultural market prices & arrivals\n\u000bMoSPI / NSSO — Report No. 587, Situation Assessment of Agricultural Households\u000bICAR-CIPHET — Post-harvest management & losses\n\u000bTRAI — Rural digital connectivity reports\u000bSarvam AI — Telugu Speech & Language APIs"
+      }
+    ]
+  }
+]
